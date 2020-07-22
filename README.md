@@ -21,7 +21,7 @@ npm install
 Example usage:
 
 ```sh
-npm start my-profile-name
+node ./lib/index.js my-profile
 ```
 
 or create an alias in your shell containing
