@@ -32,6 +32,7 @@ alias aws_my_profile="node <absolutePathToRepo>/lib/index.js my-profile"
 
 ## TODOs
 
+- [ ] Create cli module
 - [ ] Add as CLI bin
 - [ ] Publish npm package
 - [ ] Tests
