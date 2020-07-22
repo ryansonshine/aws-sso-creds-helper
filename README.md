@@ -12,3 +12,14 @@ the `aws_access_key_id`, `aws_secret_access_key`, and `aws_session_token`.
 
 ## Quick Start
 
+```sh
+npm install
+```
+
+## Usage
+
+Example usage:
+
+```sh
+npm start my-profile-name
+```

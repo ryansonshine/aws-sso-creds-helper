@@ -71,7 +71,11 @@ export const backupCredentials = (): void => {
 export const getProfile = (profileName: string): Profile => {
   const config = readConfig<Profile>(AWS_CONFIG_PATH);
   const fullProfileName = profileName === 'default' ? 'default' : `profile ${profileName}`;
-  return config[fullProfileName] as Profile;
+  const profile = config[fullProfileName] as Profile;
+  if (!profile) {
+    throw new Error(`No profile found for ${profileName}`);
+  }
+  return profile;
 };
 
 export const writeConfig = <T>(filename: string, config: T): void => {
@@ -92,7 +96,7 @@ export const loadJson = (path: string) => {
 };
 
 export const isMatchingStartUrl = (cred: CachedCredential, profile: Profile) => {
-  return cred.startUrl === profile.sso_start_url;
+  return cred.startUrl === profile?.sso_start_url;
 };
 
 export const isExpired = (now: Date, expiresAt: string): boolean => {
