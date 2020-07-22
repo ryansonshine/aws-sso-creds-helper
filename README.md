@@ -23,3 +23,11 @@ Example usage:
 ```sh
 npm start my-profile-name
 ```
+
+## TODOs
+
+- [ ] Add as CLI bin
+- [ ] Publish npm package
+- [ ] Tests
+- [ ] Look into using `credential_process`
+- [ ] Refactor types
