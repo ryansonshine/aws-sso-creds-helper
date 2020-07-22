@@ -119,8 +119,10 @@ async function run() {
 
 run()
   .then(() => {
-    console.info(`Successfully set credentials for SSO profile "${AWS_PROFILE}"`);
+    console.info(
+      `[SSO-Creds-Helper]: Successfully set credentials for SSO profile "${AWS_PROFILE}"`
+    );
   })
   .catch(e => {
-    console.error('Failed to update credentials', e);
+    console.error('[SSO-Creds-Helper]: Failed to update credentials', e);
   });
