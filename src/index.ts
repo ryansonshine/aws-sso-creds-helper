@@ -11,6 +11,7 @@ const BASE_PATH = join(homedir(), '.aws');
 const AWS_CONFIG_PATH = join(BASE_PATH, 'config');
 const AWS_CREDENTIAL_PATH = join(BASE_PATH, 'credentials');
 const AWS_SSO_CACHE_PATH = join(BASE_PATH, 'sso', 'cache');
+const AWS_PROFILE = process.argv[2] || 'default';
 
 export const getSsoCachedLogin = (profile: Profile) => {
   const files = readdirSync(AWS_SSO_CACHE_PATH);
@@ -95,7 +96,7 @@ export const isMatchingStartUrl = (cred: CachedCredential, profile: Profile) => 
 };
 
 export const isExpired = (now: Date, expiresAt: string): boolean => {
-  const exp = new Date(expiresAt);
+  const exp = new Date(expiresAt.replace('UTC', ''));
   return now.getTime() > exp.getTime();
 };
 
@@ -106,12 +107,16 @@ export const isCredential = (config: Profile | CachedCredential): config is Cach
 };
 
 async function run() {
-  const profile = getProfile('test');
+  const profile = getProfile(AWS_PROFILE);
   const cachedLogin = getSsoCachedLogin(profile);
   const credentials = await getSsoRoleCredentials(profile, cachedLogin);
-  updateAwsCredentials('test', profile, credentials);
+  updateAwsCredentials(AWS_PROFILE, profile, credentials);
 }
 
-run().then(() => {
-  console.log('done!');
-});
+run()
+  .then(() => {
+    console.info(`Successfully set credentials for SSO profile "${AWS_PROFILE}"`);
+  })
+  .catch(e => {
+    console.error('Failed to update credentials', e);
+  });
