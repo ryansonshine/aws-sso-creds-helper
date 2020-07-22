@@ -24,6 +24,12 @@ Example usage:
 npm start my-profile-name
 ```
 
+or create an alias in your shell containing
+
+```sh
+alias aws_my_profile="node <absolutePathToRepo>/lib/index.js my-profile"
+```
+
 ## TODOs
 
 - [ ] Add as CLI bin
