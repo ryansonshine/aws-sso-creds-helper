@@ -26,7 +26,7 @@ export const getSsoCachedLogin = (profile: Profile) => {
       return data;
     }
   }
-  throw new Error('Cached SSO login is expired/invalid');
+  throw new Error('Cached SSO login is expired/invalid, try running `aws sso login` and try again');
 };
 
 export const getSsoRoleCredentials = async (
