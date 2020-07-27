@@ -1,19 +1,19 @@
 # AWS SSO Credentials Helper
 
-When using `aws sso login` on AWS CLI v2 the credentials are stored in `~/.aws/cli/cache`.
-This works fine with the CLI itself but is not picked up by other libraries expecting them
-to be in `~/.aws/credentials` (ie: aws-sdk and Terraform).
+When using `aws sso login` on [AWS CLI v2](https://aws.amazon.com/blogs/developer/aws-cli-v2-is-now-generally-available/)
+as of July 27th, 2020, the credentials are stored so they will work with the CLI
+itself but are do not work on the AWS SDKs and other tooling that expects credentials
+to be readable from `~/.aws/credentials`.
 
-This script aims to streamline updating the AWS credentials file for AWS SSO users by
-updating/creating the corresponding profile section in `~/.aws/credentials` containing
-the `aws_access_key_id`, `aws_secret_access_key`, and `aws_session_token`.
+This package aims to streamline updating the AWS credentials file for AWS SSO users by
+updating/creating the corresponding profile section in `~/.aws/credentials` with
+temporary role credentials. Once a solution is implemented in AWS CLI v2, this
+repo will be archived.
 
-## Requirements
-
-## Quick Start
+## Install
 
 ```sh
-npm install
+$ npm install -g aws-sso-creds-helper
 ```
 
 ## Usage
@@ -21,27 +21,30 @@ npm install
 Example usage:
 
 ```sh
-node ./lib/index.js my-profile
+$ aws-sso-creds-helper --profile my-profile
+
+[aws-sso-creds-helper]: Getting SSO credentials for profile my-profile
+[aws-sso-creds-helper]: Successfully loaded SSO credentials for profile my-profile
 ```
 
 or create an alias in your shell containing
 
 ```sh
-alias awsmyprofile="node <absolutePathToRepo>/aws-sso-creds-helper/lib/index.js my-profile"
+alias awsmyprofile="aws-sso-creds-helper --profile my-profile"
 ```
 
 or combine with a [profile switching script](https://github.com/antonbabenko/awsp)
 if you use multiple profiles to switch profiles and then grab the credentials in one command
 
 ```sh
-alias awsmyprofile="awsp my-profile && node <absolutePathToRepo>/aws-sso-creds-helper/lib/index.js my-profile"
+alias awsmyprofile="awsp my-profile && aws-sso-creds-helper --profile my-profile"
 ```
 
 ## TODOs
 
-- [ ] Create cli module
-- [ ] Add as CLI bin
-- [ ] Publish npm package
+- [x] Create cli module
+- [x] Add as CLI bin
+- [x] Publish npm package
 - [ ] Tests
 - [ ] Look into using `credential_process`
-- [ ] Refactor types
+- [ ] Implement automated headless `aws sso login`

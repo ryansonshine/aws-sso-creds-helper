@@ -1,5 +1,9 @@
 import { AccessTokenType, RoleNameType, AccountIdType } from 'aws-sdk/clients/sso';
 
+export interface RunArgs {
+  profileName: string;
+}
+
 export interface Profile {
   output: Output;
   region: Region;
