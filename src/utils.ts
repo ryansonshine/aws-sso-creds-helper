@@ -19,7 +19,7 @@ export const loadJson = (path: string) => {
   }
 };
 
-export const isMatchingStartUrl = (cred: CachedCredential, profile: Profile) => {
+export const isMatchingStartUrl = (cred: CachedCredential, profile: Profile): boolean => {
   return cred.startUrl === profile?.sso_start_url;
 };
 
