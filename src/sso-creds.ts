@@ -19,7 +19,7 @@ const AWS_CONFIG_PATH = join(BASE_PATH, 'config');
 const AWS_CREDENTIAL_PATH = join(BASE_PATH, 'credentials');
 const AWS_SSO_CACHE_PATH = join(BASE_PATH, 'sso', 'cache');
 
-export const getSsoCachedLogin = (profile: Profile) => {
+export const getSsoCachedLogin = (profile: Profile): CachedCredential => {
   const files = readdirSync(AWS_SSO_CACHE_PATH);
   const now = new Date();
   for (const file of files) {
@@ -59,7 +59,7 @@ export const updateAwsCredentials = (
   profileName: string,
   profile: Profile,
   credentials: RoleCredentials
-) => {
+): void => {
   const region = profile.region || 'us-east-1';
   const config = readConfig<Credential>(AWS_CREDENTIAL_PATH);
   config[profileName] = {
@@ -86,7 +86,7 @@ export const getProfile = (profileName: string): Profile => {
   return profile;
 };
 
-export async function run({ profileName }: RunArgs) {
+export async function run({ profileName }: RunArgs): Promise<void> {
   const profile = getProfile(profileName);
   const cachedLogin = getSsoCachedLogin(profile);
   const credentials = await getSsoRoleCredentials(profile, cachedLogin);
