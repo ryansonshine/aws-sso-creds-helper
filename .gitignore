@@ -1,5 +1,5 @@
 # compiled code
-index.js
+lib/
 
 # package directories
 node_modules/
