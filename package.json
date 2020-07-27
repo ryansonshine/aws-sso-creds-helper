@@ -1,6 +1,6 @@
 {
   "name": "aws-sso-creds-helper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "AWS SSO Credential helper for AWS SDK",
   "main": "./lib/index.js",
   "contributors": [
