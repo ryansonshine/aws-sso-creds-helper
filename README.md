@@ -1,4 +1,4 @@
-# AWS SSO Credentials Helper (WIP)
+# AWS SSO Credentials Helper
 
 When using `aws sso login` on AWS CLI v2 the credentials are stored in `~/.aws/cli/cache`.
 This works fine with the CLI itself but is not picked up by other libraries expecting them
