@@ -27,7 +27,14 @@ node ./lib/index.js my-profile
 or create an alias in your shell containing
 
 ```sh
-alias aws_my_profile="node <absolutePathToRepo>/lib/index.js my-profile"
+alias awsmyprofile="node <absolutePathToRepo>/aws-sso-creds-helper/lib/index.js my-profile"
+```
+
+or combine with a [profile switching script](https://github.com/antonbabenko/awsp)
+if you use multiple profiles to switch profiles and then grab the credentials in one command
+
+```sh
+alias awsmyprofile="_awsSetProfile my-profile && node <absolutePathToRepo>/aws-sso-creds-helper/lib/index.js my-profile"
 ```
 
 ## TODOs
