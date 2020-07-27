@@ -8,7 +8,7 @@
   ],
   "license": "MIT",
   "bin": {
-    "aws-sso-creds-helper": "./bin/index.js"
+    "ssocreds": "./bin/index.js"
   },
   "files": [
     "lib/**/*",

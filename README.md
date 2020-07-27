@@ -21,7 +21,7 @@ $ npm install -g aws-sso-creds-helper
 Example usage:
 
 ```sh
-$ aws-sso-creds-helper --profile my-profile
+$ ssocreds --profile my-profile
 
 [aws-sso-creds-helper]: Getting SSO credentials for profile my-profile
 [aws-sso-creds-helper]: Successfully loaded SSO credentials for profile my-profile
@@ -30,14 +30,14 @@ $ aws-sso-creds-helper --profile my-profile
 or create an alias in your shell containing
 
 ```sh
-alias awsmyprofile="aws-sso-creds-helper --profile my-profile"
+alias awsmyprofile="ssocreds --profile my-profile"
 ```
 
 or combine with a [profile switching script](https://github.com/antonbabenko/awsp)
 if you use multiple profiles to switch profiles and then grab the credentials in one command
 
 ```sh
-alias awsmyprofile="awsp my-profile && aws-sso-creds-helper --profile my-profile"
+alias awsmyprofile="awsp my-profile && ssocreds --profile my-profile"
 ```
 
 ## TODOs
