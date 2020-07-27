@@ -34,7 +34,7 @@ or combine with a [profile switching script](https://github.com/antonbabenko/aws
 if you use multiple profiles to switch profiles and then grab the credentials in one command
 
 ```sh
-alias awsmyprofile="_awsSetProfile my-profile && node <absolutePathToRepo>/aws-sso-creds-helper/lib/index.js my-profile"
+alias awsmyprofile="awsp my-profile && node <absolutePathToRepo>/aws-sso-creds-helper/lib/index.js my-profile"
 ```
 
 ## TODOs
