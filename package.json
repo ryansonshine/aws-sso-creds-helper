@@ -1,5 +1,5 @@
 {
-  "name": "node-sso-creds-helper",
+  "name": "aws-sso-creds-helper",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
