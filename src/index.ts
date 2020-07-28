@@ -8,8 +8,7 @@ const LOG_PREFIX = `[${name}]:`;
 
 program
   .version(version)
-  .name('aws-sso-creds-helper')
-  .usage('--profile <profile>')
+  .name('ssocreds')
   .option('-p, --profile <profile>', 'profile to use for obtaining sso credentials', 'default')
   .option('-d, --debug', 'enables verbose logging', false)
   .parse(process.argv);

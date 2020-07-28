@@ -3,3 +3,6 @@ lib/
 
 # package directories
 node_modules/
+
+# todos
+TODOS.md
