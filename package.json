@@ -26,6 +26,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf ./lib/",
+    "release": "standard-version",
     "prepublish": "npm run clean && npm run build",
     "postversion": "git push && git push --tags && npm publish"
   },
@@ -40,6 +41,7 @@
     "@types/node": "^14.0.24",
     "commitizen": "^4.1.2",
     "cz-conventional-changelog": "^3.2.0",
+    "standard-version": "^8.0.2",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
