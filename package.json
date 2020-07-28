@@ -27,8 +27,7 @@
     "build": "tsc",
     "clean": "rm -rf ./lib/",
     "release": "standard-version",
-    "prepublish": "npm run clean && npm run build",
-    "postversion": "git push && git push --tags && npm publish"
+    "prepublish": "npm run clean && npm run build"
   },
   "keywords": [
     "aws sso credentials",
