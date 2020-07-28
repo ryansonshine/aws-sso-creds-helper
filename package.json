@@ -21,10 +21,11 @@
   },
   "bugs": "https://github.com/ryansonshine/aws-sso-creds-helper/issues",
   "engines": {
-    "node": ">=8.0"
+    "node": ">=10.0"
   },
   "scripts": {
     "build": "tsc",
+    "lint": "eslint ./src/ --fix",
     "clean": "rm -rf ./lib/",
     "release": "standard-version",
     "prepublish": "npm run clean && npm run build"
@@ -38,8 +39,15 @@
   "devDependencies": {
     "@types/ini": "^1.3.30",
     "@types/node": "^14.0.24",
+    "@typescript-eslint/eslint-plugin": "^3.7.1",
+    "@typescript-eslint/parser": "^3.7.1",
     "commitizen": "^4.1.2",
     "cz-conventional-changelog": "^3.2.0",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.0.5",
     "standard-version": "^8.0.2",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"

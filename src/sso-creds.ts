@@ -23,7 +23,7 @@ export const getSsoCachedLogin = (profile: Profile): CachedCredential => {
   const files = readdirSync(AWS_SSO_CACHE_PATH);
   const now = new Date();
   for (const file of files) {
-    const data: CachedCredential = loadJson(join(AWS_SSO_CACHE_PATH, file));
+    const data = loadJson(join(AWS_SSO_CACHE_PATH, file));
     if (
       isCredential(data) &&
       !isExpired(now, data.expiresAt) &&
@@ -79,7 +79,7 @@ export const backupCredentials = (): void => {
 export const getProfile = (profileName: string): Profile => {
   const config = readConfig<Profile>(AWS_CONFIG_PATH);
   const fullProfileName = profileName === 'default' ? 'default' : `profile ${profileName}`;
-  const profile = config[fullProfileName] as Profile;
+  const profile = config[fullProfileName];
   if (!profile) {
     throw new Error(`No profile found for ${profileName}`);
   }
