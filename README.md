@@ -20,10 +20,20 @@ $ npm install -g aws-sso-creds-helper
 
 ## Usage
 
-Example usage:
+```sh
+Usage: ssocreds [options]
+
+Options:
+  -V, --version            output the version number
+  -p, --profile <profile>  profile to use for obtaining sso credentials (default: "default")
+  -d, --debug              enables verbose logging (default: false)
+  -h, --help               display help for command
+```
+
+Example:
 
 ```sh
-$ ssocreds --profile my-profile
+$ ssocreds -p my-profile
 
 [aws-sso-creds-helper]: Getting SSO credentials for profile my-profile
 [aws-sso-creds-helper]: Successfully loaded SSO credentials for profile my-profile
@@ -32,21 +42,12 @@ $ ssocreds --profile my-profile
 or create an alias in your shell containing
 
 ```sh
-alias awsmyprofile="ssocreds --profile my-profile"
+alias awsmyprofile="ssocreds -p my-profile"
 ```
 
 or combine with a [profile switching script](https://github.com/antonbabenko/awsp)
 if you use multiple profiles to switch profiles and then grab the credentials in one command
 
 ```sh
-alias awsmyprofile="awsp my-profile && ssocreds --profile my-profile"
+alias awsmyprofile="awsp my-profile && ssocreds -p my-profile"
 ```
-
-## TODOs
-
-- [x] Create cli module
-- [x] Add as CLI bin
-- [x] Publish npm package
-- [ ] Tests
-- [ ] Look into using `credential_process`
-- [ ] Implement automated headless `aws sso login`
