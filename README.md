@@ -2,8 +2,8 @@
 
 When using `aws sso login` on [AWS CLI v2](https://aws.amazon.com/blogs/developer/aws-cli-v2-is-now-generally-available/)
 as of July 27th, 2020, the credentials are stored so they will work with the CLI
-itself but don't work on the AWS SDKs and other tools that expect credentials
-to be readable from `~/.aws/credentials`.
+itself (v2) but don't work on the AWS SDKs and other tools that expect credentials
+to be readable from `~/.aws/credentials` (v1).
 
 This package aims to streamline updating the AWS credentials file for AWS SSO users by
 updating/creating the corresponding profile section in `~/.aws/credentials` with
