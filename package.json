@@ -28,7 +28,7 @@
     "lint": "eslint ./src/ --fix",
     "clean": "rm -rf ./lib/",
     "release": "standard-version",
-    "prepublish": "npm run clean && npm run build"
+    "prepublishOnly": "npm run clean && npm run build"
   },
   "keywords": [
     "aws sso credentials",
