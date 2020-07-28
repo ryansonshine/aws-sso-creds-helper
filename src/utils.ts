@@ -11,9 +11,9 @@ export const readConfig = <T>(filename: string): ParsedConfig<T> => {
   return config;
 };
 
-export const loadJson = (path: string) => {
+export const loadJson = (path: string): unknown => {
   try {
-    return require(path);
+    return require(path) as unknown;
   } catch (e) {
     console.error('Ignoring invalid json', e);
   }
@@ -28,7 +28,9 @@ export const isExpired = (now: Date, expiresAt: string): boolean => {
   return now.getTime() > exp.getTime();
 };
 
-export const isCredential = (config: Profile | CachedCredential): config is CachedCredential => {
+export const isCredential = (
+  config: Profile | CachedCredential | unknown
+): config is CachedCredential => {
   return Boolean(
     (config as CachedCredential)?.accessToken && (config as CachedCredential).expiresAt
   );
