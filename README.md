@@ -1,5 +1,7 @@
 # AWS SSO Credentials Helper
 
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 When using `aws sso login` on [AWS CLI v2](https://aws.amazon.com/blogs/developer/aws-cli-v2-is-now-generally-available/)
 as of July 27th, 2020, the credentials are stored so they will work with the CLI
 itself (v2) but don't work on the AWS SDKs and other tools that expect credentials
