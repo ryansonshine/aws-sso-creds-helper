@@ -5,7 +5,6 @@
 ![GitHub issues](https://img.shields.io/github/issues/ryansonshine/aws-sso-creds-helper)
 ![License](https://img.shields.io/npm/l/aws-sso-creds-helper)
 ![Version](https://img.shields.io/npm/v/aws-sso-creds-helper)
-![Commits](https://img.shields.io/github/commit-activity/m/ryansonshine/aws-sso-creds-helper)
 
 When using `aws sso login` on [AWS CLI v2](https://aws.amazon.com/blogs/developer/aws-cli-v2-is-now-generally-available/)
 as of July 27th, 2020, the credentials are stored so they will work with the CLI
