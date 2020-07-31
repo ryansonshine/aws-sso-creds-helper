@@ -1,6 +1,6 @@
 import { homedir } from 'os';
 import { join } from 'path';
-import { readdirSync, copyFileSync } from 'fs';
+import { readdirSync } from 'fs';
 import { SSO } from 'aws-sdk';
 import { RoleCredentials } from 'aws-sdk/clients/sso';
 import { Profile, CachedCredential, Credential, RunArgs } from './types';
@@ -11,6 +11,8 @@ import {
   isCredential,
   isExpired,
   isMatchingStartUrl,
+  isFile,
+  createBackup,
 } from './utils';
 import { ExpiredCredsError } from './errors';
 
@@ -61,7 +63,7 @@ export const updateAwsCredentials = (
   credentials: RoleCredentials
 ): void => {
   const region = profile.region || 'us-east-1';
-  const config = readConfig<Credential>(AWS_CREDENTIAL_PATH);
+  const config = isFile(AWS_CREDENTIAL_PATH) ? readConfig<Credential>(AWS_CREDENTIAL_PATH) : {};
   config[profileName] = {
     aws_access_key_id: credentials.accessKeyId || '',
     aws_secret_access_key: credentials.secretAccessKey || '',
@@ -73,7 +75,7 @@ export const updateAwsCredentials = (
 };
 
 export const backupCredentials = (): void => {
-  copyFileSync(AWS_CREDENTIAL_PATH, `${AWS_CREDENTIAL_PATH}.backup`);
+  createBackup(AWS_CREDENTIAL_PATH);
 };
 
 export const getProfile = (profileName: string): Profile => {

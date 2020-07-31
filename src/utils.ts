@@ -1,14 +1,28 @@
-import { writeFileSync, readFileSync } from 'fs';
+import { writeFileSync, readFileSync, existsSync, copyFileSync } from 'fs';
 import { parse, encode } from 'ini';
 import { ParsedConfig, CachedCredential, Profile } from './types';
 
 export const writeConfig = <T>(filename: string, config: T): void => {
-  writeFileSync(filename, encode(config), { encoding: 'utf-8' });
+  writeFileSync(filename, encode(config), { encoding: 'utf-8', flag: 'w' });
 };
 
 export const readConfig = <T>(filename: string): ParsedConfig<T> => {
   const config = parse(readFileSync(filename).toString('utf-8')) as ParsedConfig<T>;
   return config;
+};
+
+export const isFile = (filename: string): boolean => {
+  return existsSync(filename);
+};
+
+export const createBackup = (filename: string): void => {
+  if (isFile(filename)) {
+    if (isFile(`${filename}.backup.firstrun`)) {
+      copyFileSync(filename, `${filename}.backup`);
+    } else {
+      copyFileSync(filename, `${filename}.backup.firstrun`);
+    }
+  }
 };
 
 export const loadJson = (path: string): unknown => {
