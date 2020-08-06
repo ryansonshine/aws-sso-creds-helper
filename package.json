@@ -30,7 +30,7 @@
     "release": "standard-version",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "prepublishOnly": "npm run clean && npm run build"
+    "prepublishOnly": "npm run clean && npm run test && npm run build"
   },
   "keywords": [
     "aws sso credentials",
