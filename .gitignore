@@ -4,5 +4,8 @@ lib/
 # package directories
 node_modules/
 
+# test coverage
+coverage/
+
 # todos
 TODOS.md
