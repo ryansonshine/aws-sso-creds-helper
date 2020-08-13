@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.1.5...v1.2.0) (2020-08-13)
+
+
+### Features
+
+* **awscli:** add functionality for executing aws sso login when credentials are expired ([4a0143a](https://github.com/ryansonshine/aws-sso-creds-helper/commit/4a0143a2a16ca52904ef82fd3d2a5c619a56ea31))
+
 ### [1.1.5](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.1.4...v1.1.5) (2020-07-31)
 
 ### [1.1.4](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.1.3...v1.1.4) (2020-07-31)
