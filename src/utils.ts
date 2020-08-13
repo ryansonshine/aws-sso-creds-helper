@@ -1,6 +1,7 @@
 import { writeFileSync, readFileSync, existsSync, copyFileSync } from 'fs';
 import { parse, encode } from 'ini';
 import { ParsedConfig, CachedCredential, Profile } from './types';
+import { spawnSync } from 'child_process';
 
 export const writeConfig = <T>(filename: string, config: T): void => {
   writeFileSync(filename, encode(config), { encoding: 'utf-8', flag: 'w' });
@@ -48,4 +49,8 @@ export const isCredential = (
   return Boolean(
     (config as CachedCredential)?.accessToken && (config as CachedCredential).expiresAt
   );
+};
+
+export const awsSsoLogin = (profileName: string): void => {
+  spawnSync('aws', ['sso', 'login', '--profile', profileName]);
 };

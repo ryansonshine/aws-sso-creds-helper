@@ -13,6 +13,7 @@ import {
   isMatchingStartUrl,
   isFile,
   createBackup,
+  awsSsoLogin,
 } from './utils';
 import { ExpiredCredsError } from './errors';
 
@@ -20,6 +21,7 @@ const BASE_PATH = join(homedir(), '.aws');
 const AWS_CONFIG_PATH = join(BASE_PATH, 'config');
 const AWS_CREDENTIAL_PATH = join(BASE_PATH, 'credentials');
 const AWS_SSO_CACHE_PATH = join(BASE_PATH, 'sso', 'cache');
+let failedAttempts = 0;
 
 export const getSsoCachedLogin = (profile: Profile): CachedCredential => {
   const files = readdirSync(AWS_SSO_CACHE_PATH);
@@ -89,8 +91,17 @@ export const getProfile = (profileName: string): Profile => {
 };
 
 export async function run({ profileName }: RunArgs): Promise<void> {
-  const profile = getProfile(profileName);
-  const cachedLogin = getSsoCachedLogin(profile);
-  const credentials = await getSsoRoleCredentials(profile, cachedLogin);
-  updateAwsCredentials(profileName, profile, credentials);
+  try {
+    const profile = getProfile(profileName);
+    const cachedLogin = getSsoCachedLogin(profile);
+    const credentials = await getSsoRoleCredentials(profile, cachedLogin);
+    updateAwsCredentials(profileName, profile, credentials);
+  } catch (e) {
+    if (failedAttempts) {
+      throw e;
+    }
+    failedAttempts++;
+    awsSsoLogin(profileName);
+    await run({ profileName });
+  }
 }
