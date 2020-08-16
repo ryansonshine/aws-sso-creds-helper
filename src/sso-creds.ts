@@ -14,6 +14,7 @@ import {
   isFile,
   createBackup,
   awsSsoLogin,
+  delay,
 } from './utils';
 import { ExpiredCredsError } from './errors';
 
@@ -102,6 +103,7 @@ export async function run({ profileName }: RunArgs): Promise<void> {
     }
     failedAttempts++;
     awsSsoLogin(profileName);
+    await delay(500);
     await run({ profileName });
   }
 }
