@@ -54,3 +54,5 @@ export const isCredential = (
 export const awsSsoLogin = (profileName: string): void => {
   spawnSync('aws', ['sso', 'login', '--profile', profileName]);
 };
+
+export const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms));
