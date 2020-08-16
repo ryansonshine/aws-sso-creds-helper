@@ -4,7 +4,7 @@ import { red, green, blue } from 'chalk';
 
 const { version, name } = require('../package.json');
 const program = new Command();
-const LOG_PREFIX = `[${name}]:`;
+const LOG_PREFIX = `[${name} v${version}]:`;
 
 program
   .version(version)
