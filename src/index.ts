@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import { run } from './sso-creds';
-import { red, green, blue } from 'chalk';
+import { red, green, blue, white } from 'chalk';
 
 const { version, name } = require('../package.json');
 const program = new Command();
@@ -15,7 +15,7 @@ program
 
 const statusMsg = `${LOG_PREFIX} %s SSO credentials for profile ${program.profile}`;
 
-console.log(blue(`${LOG_PREFIX} v.${version}`));
+console.log(white(`${LOG_PREFIX} AWS SSO Creds Helper v${version}`));
 console.log(blue(statusMsg.replace('%s', 'Getting')));
 run({ profileName: program.profile })
   .then(() => {
