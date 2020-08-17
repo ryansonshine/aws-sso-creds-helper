@@ -103,7 +103,7 @@ export async function run({ profileName }: RunArgs): Promise<void> {
     }
     failedAttempts++;
     awsSsoLogin(profileName);
-    await delay(500);
+    await delay(1500);
     await run({ profileName });
   }
 }
