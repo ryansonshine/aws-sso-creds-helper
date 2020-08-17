@@ -4,7 +4,7 @@ import { red, green, blue } from 'chalk';
 
 const { version, name } = require('../package.json');
 const program = new Command();
-const LOG_PREFIX = `[${name} v${version}]:`;
+const LOG_PREFIX = `[${name}]:`;
 
 program
   .version(version)
@@ -15,6 +15,7 @@ program
 
 const statusMsg = `${LOG_PREFIX} %s SSO credentials for profile ${program.profile}`;
 
+console.log(blue(`${LOG_PREFIX} v.${version}`));
 console.log(blue(statusMsg.replace('%s', 'Getting')));
 run({ profileName: program.profile })
   .then(() => {
