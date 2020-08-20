@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.5](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.2.4...v1.2.5) (2020-08-20)
+
+
+### Bug Fixes
+
+* **awscli:** update aws sso login command to use exec ([16b9f63](https://github.com/ryansonshine/aws-sso-creds-helper/commit/16b9f63db992e3fb958d89a803b1a6f7884423d6))
+
 ### [1.2.4](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.2.3...v1.2.4) (2020-08-17)
 
 ### [1.2.3](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.2.2...v1.2.3) (2020-08-17)
