@@ -117,7 +117,8 @@ export async function run({
         await awsSsoLogin(profileName);
       }
       await run({ profileName, proxyEnabled });
+    } else {
+      throw e;
     }
-    throw e;
   }
 }
