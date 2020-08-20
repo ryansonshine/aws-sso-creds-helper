@@ -1,7 +1,8 @@
 import { writeFileSync, readFileSync, existsSync, copyFileSync } from 'fs';
 import { parse, encode } from 'ini';
 import { ParsedConfig, CachedCredential, Profile } from './types';
-import { spawnSync } from 'child_process';
+import { exec as cpExec } from 'child_process';
+import { promisify } from 'util';
 
 export const writeConfig = <T>(filename: string, config: T): void => {
   writeFileSync(filename, encode(config), { encoding: 'utf-8', flag: 'w' });
@@ -51,8 +52,7 @@ export const isCredential = (
   );
 };
 
-export const awsSsoLogin = (profileName: string): void => {
-  spawnSync('aws', ['sso', 'login', '--profile', profileName]);
+export const awsSsoLogin = async (profileName: string): Promise<void> => {
+  const exec = promisify(cpExec);
+  await exec(`aws sso login --profile ${profileName}`);
 };
-
-export const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms));
