@@ -12,6 +12,7 @@
     "aws-sso-creds-helper": "./bin/index.js"
   },
   "files": [
+    "!lib/__tests__/**/*",
     "lib/**/*",
     "bin/**/*"
   ],
