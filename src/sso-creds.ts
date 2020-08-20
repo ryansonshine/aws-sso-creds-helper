@@ -1,7 +1,6 @@
 import { homedir } from 'os';
 import { join } from 'path';
 import { readdirSync } from 'fs';
-import { SSO } from 'aws-sdk';
 import { RoleCredentials } from 'aws-sdk/clients/sso';
 import { Profile, CachedCredential, Credential, RunArgs } from './types';
 import {
@@ -16,6 +15,7 @@ import {
   awsSsoLogin,
 } from './utils';
 import { ExpiredCredsError } from './errors';
+import { getSSOClient } from './aws-sdk';
 
 const BASE_PATH = join(homedir(), '.aws');
 const AWS_CONFIG_PATH = join(BASE_PATH, 'config');
@@ -43,9 +43,10 @@ export const getSsoCachedLogin = (profile: Profile): CachedCredential => {
 
 export const getSsoRoleCredentials = async (
   profile: Profile,
-  login: CachedCredential
+  login: CachedCredential,
+  useProxy: boolean
 ): Promise<RoleCredentials> => {
-  const sso = new SSO({ region: profile.sso_region });
+  const sso = getSSOClient(profile.sso_region, useProxy);
   const result = await sso
     .getRoleCredentials({
       accessToken: login.accessToken,
@@ -90,11 +91,11 @@ export const getProfile = (profileName: string): Profile => {
   return profile;
 };
 
-export async function run({ profileName }: RunArgs): Promise<void> {
+export async function run({ profileName, proxyEnabled = false }: RunArgs): Promise<void> {
   try {
     const profile = getProfile(profileName);
     const cachedLogin = getSsoCachedLogin(profile);
-    const credentials = await getSsoRoleCredentials(profile, cachedLogin);
+    const credentials = await getSsoRoleCredentials(profile, cachedLogin, proxyEnabled);
     updateAwsCredentials(profileName, profile, credentials);
   } catch (e) {
     if (failedAttempts) {
@@ -102,6 +103,6 @@ export async function run({ profileName }: RunArgs): Promise<void> {
     }
     failedAttempts++;
     await awsSsoLogin(profileName);
-    await run({ profileName });
+    await run({ profileName, proxyEnabled });
   }
 }

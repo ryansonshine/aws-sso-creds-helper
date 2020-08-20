@@ -31,6 +31,7 @@ Options:
   -V, --version            output the version number
   -p, --profile <profile>  profile to use for obtaining sso credentials (default: "default")
   -d, --debug              enables verbose logging (default: false)
+  -u, --use-proxy          flag for the aws sdk to use HTTPS_PROXY found in env (default: false)
   -h, --help               display help for command
 ```
 
