@@ -11,13 +11,14 @@ program
   .name('ssocreds')
   .option('-p, --profile <profile>', 'profile to use for obtaining sso credentials', 'default')
   .option('-d, --debug', 'enables verbose logging', false)
+  .option('-u, --use-proxy', 'flag for the aws sdk to use HTTPS_PROXY found in env', false)
   .parse(process.argv);
 
 const statusMsg = `${LOG_PREFIX} %s SSO credentials for profile ${program.profile}`;
 
 console.log(white(`${LOG_PREFIX} AWS SSO Creds Helper v${version}`));
 console.log(blue(statusMsg.replace('%s', 'Getting')));
-run({ profileName: program.profile })
+run({ profileName: program.profile, proxyEnabled: program.useProxy })
   .then(() => {
     console.log(green(statusMsg.replace('%s', 'Successfully loaded')));
   })
