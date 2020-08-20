@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.2.5...v1.3.0) (2020-08-20)
+
+
+### Features
+
+* **aws-sdk:** add proxy support for aws sdk ([1741f38](https://github.com/ryansonshine/aws-sso-creds-helper/commit/1741f3894ec7d8f16ac4aed812cb532ea47d94fa))
+
 ### [1.2.5](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.2.4...v1.2.5) (2020-08-20)
 
 
