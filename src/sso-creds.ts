@@ -65,13 +65,17 @@ export const updateAwsCredentials = (
   credentials: RoleCredentials
 ): void => {
   const region = profile.region || 'us-east-1';
-  const config = isFile(AWS_CREDENTIAL_PATH) ? readConfig<Credential>(AWS_CREDENTIAL_PATH) : {};
+  const config = isFile(AWS_CREDENTIAL_PATH)
+    ? readConfig<Credential>(AWS_CREDENTIAL_PATH)
+    : {};
+
   config[profileName] = {
     aws_access_key_id: credentials.accessKeyId || '',
     aws_secret_access_key: credentials.secretAccessKey || '',
     aws_session_token: credentials.sessionToken,
     region,
   };
+
   backupCredentials();
   writeConfig(AWS_CREDENTIAL_PATH, config);
 };
@@ -82,19 +86,29 @@ export const backupCredentials = (): void => {
 
 export const getProfile = (profileName: string): Profile => {
   const config = readConfig<Profile>(AWS_CONFIG_PATH);
-  const fullProfileName = profileName === 'default' ? 'default' : `profile ${profileName}`;
+  const fullProfileName =
+    profileName === 'default' ? 'default' : `profile ${profileName}`;
   const profile = config[fullProfileName];
+
   if (!profile) {
     throw new ProfileNotFoundError(profileName);
   }
+
   return profile;
 };
 
-export async function run({ profileName, proxyEnabled = false }: RunArgs): Promise<void> {
+export async function run({
+  profileName,
+  proxyEnabled = false,
+}: RunArgs): Promise<void> {
   try {
     const profile = getProfile(profileName);
     const cachedLogin = getSsoCachedLogin(profile);
-    const credentials = await getSsoRoleCredentials(profile, cachedLogin, proxyEnabled);
+    const credentials = await getSsoRoleCredentials(
+      profile,
+      cachedLogin,
+      proxyEnabled
+    );
     updateAwsCredentials(profileName, profile, credentials);
   } catch (e) {
     if (isExpiredCredsError(e) && failedAttempts <= 2) {

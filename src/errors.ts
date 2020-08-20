@@ -1,7 +1,8 @@
 export class ExpiredCredsError extends Error {
   constructor(msg?: string) {
     const message =
-      msg || 'Cached SSO login is expired/invalid, try running `aws sso login` and try again';
+      msg ||
+      'Cached SSO login is expired/invalid, try running `aws sso login` and try again';
     super(message);
     Error.captureStackTrace(this, this.constructor);
     this.name = this.constructor.name;

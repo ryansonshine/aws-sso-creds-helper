@@ -6,7 +6,9 @@ export const getSSOClient = (region: Region, useProxy: boolean): AWS.SSO => {
   if (useProxy) {
     const proxy = process.env.https_proxy || process.env.HTTPS_PROXY;
     if (!proxy) {
-      throw new Error('No proxy found in env, set HTTPS_PROXY or remove proxy flag and try again');
+      throw new Error(
+        'No proxy found in env, set HTTPS_PROXY or remove proxy flag and try again'
+      );
     }
     AWS.config.update({
       httpOptions: {
