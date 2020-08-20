@@ -13,8 +13,9 @@ import {
   isFile,
   createBackup,
   awsSsoLogin,
+  isExpiredCredsError,
 } from './utils';
-import { ExpiredCredsError } from './errors';
+import { ExpiredCredsError, AwsSdkError, ProfileNotFoundError } from './errors';
 import { getSSOClient } from './aws-sdk';
 
 const BASE_PATH = join(homedir(), '.aws');
@@ -36,9 +37,7 @@ export const getSsoCachedLogin = (profile: Profile): CachedCredential => {
       return data;
     }
   }
-  throw new ExpiredCredsError(
-    'Cached SSO login is expired/invalid, try running `aws sso login` and try again'
-  );
+  throw new ExpiredCredsError();
 };
 
 export const getSsoRoleCredentials = async (
@@ -55,7 +54,7 @@ export const getSsoRoleCredentials = async (
     })
     .promise();
   if (!result.roleCredentials) {
-    throw new Error('Unable to fetch role credentials');
+    throw new AwsSdkError();
   }
   return result.roleCredentials;
 };
@@ -86,7 +85,7 @@ export const getProfile = (profileName: string): Profile => {
   const fullProfileName = profileName === 'default' ? 'default' : `profile ${profileName}`;
   const profile = config[fullProfileName];
   if (!profile) {
-    throw new Error(`No profile found for ${profileName}`);
+    throw new ProfileNotFoundError(profileName);
   }
   return profile;
 };
@@ -98,11 +97,13 @@ export async function run({ profileName, proxyEnabled = false }: RunArgs): Promi
     const credentials = await getSsoRoleCredentials(profile, cachedLogin, proxyEnabled);
     updateAwsCredentials(profileName, profile, credentials);
   } catch (e) {
-    if (failedAttempts) {
-      throw e;
+    if (isExpiredCredsError(e) && failedAttempts <= 2) {
+      failedAttempts++;
+      if (failedAttempts === 1) {
+        await awsSsoLogin(profileName);
+      }
+      return run({ profileName, proxyEnabled });
     }
-    failedAttempts++;
-    await awsSsoLogin(profileName);
-    await run({ profileName, proxyEnabled });
+    throw e;
   }
 }
