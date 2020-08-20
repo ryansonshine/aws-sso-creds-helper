@@ -116,7 +116,7 @@ export async function run({
       if (failedAttempts === 1) {
         await awsSsoLogin(profileName);
       }
-      return run({ profileName, proxyEnabled });
+      await run({ profileName, proxyEnabled });
     }
     throw e;
   }
