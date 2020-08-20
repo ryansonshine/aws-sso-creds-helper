@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.3.0...v1.3.1) (2020-08-20)
+
+
+### Bug Fixes
+
+* **awscli:** fix for second attempt not working properly ([df4f9ea](https://github.com/ryansonshine/aws-sso-creds-helper/commit/df4f9ea6c289f89909526eb1873245f30ad13c85))
+
 ## [1.3.0](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.2.5...v1.3.0) (2020-08-20)
 
 
