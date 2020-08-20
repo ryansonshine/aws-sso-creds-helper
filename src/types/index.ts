@@ -2,6 +2,7 @@ import { AccessTokenType, RoleNameType, AccountIdType } from 'aws-sdk/clients/ss
 
 export interface RunArgs {
   profileName: string;
+  proxyEnabled?: boolean;
 }
 
 export interface Profile {
