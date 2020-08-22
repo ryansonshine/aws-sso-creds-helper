@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.3](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.3.2...v1.3.3) (2020-08-22)
+
+
+### Bug Fixes
+
+* **awscli:** fix issue causing cached reads on creds after expiry ([76f3b37](https://github.com/ryansonshine/aws-sso-creds-helper/commit/76f3b37dcde6ff797a1609adbf95631bdf3fed99))
+
 ### [1.3.2](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.3.1...v1.3.2) (2020-08-20)
 
 
