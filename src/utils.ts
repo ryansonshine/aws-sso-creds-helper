@@ -32,7 +32,8 @@ export const createBackup = (filename: string): void => {
 
 export const loadJson = (path: string): unknown => {
   try {
-    return require(path) as unknown;
+    const jsonRaw = readFileSync(path).toString('utf-8');
+    return JSON.parse(jsonRaw) as unknown;
   } catch (e) {
     console.error('Ignoring invalid json', e);
   }
