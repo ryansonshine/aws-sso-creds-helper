@@ -111,11 +111,9 @@ export async function run({
     );
     updateAwsCredentials(profileName, profile, credentials);
   } catch (e) {
-    if (isExpiredCredsError(e) && failedAttempts <= 2) {
+    if (isExpiredCredsError(e) && !failedAttempts) {
       failedAttempts++;
-      if (failedAttempts === 1) {
-        await awsSsoLogin(profileName);
-      }
+      await awsSsoLogin(profileName);
       await run({ profileName, proxyEnabled });
     } else {
       throw e;
