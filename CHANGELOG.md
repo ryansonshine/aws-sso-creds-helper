@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file.
 
 ### [1.3.3](https://github.com/ryansonshine/aws-sso-creds-helper/compare/v1.3.2...v1.3.3) (2020-08-22)
 
