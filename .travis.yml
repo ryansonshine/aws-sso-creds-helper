@@ -16,7 +16,6 @@ jobs:
     # https://github.com/semantic-release/semantic-release/blob/master/docs/recipes/travis.md
     - stage: release
       node_js: lts/*
-      script: skip # overwrite tests
       deploy:
         provider: script
         cleanup: false
