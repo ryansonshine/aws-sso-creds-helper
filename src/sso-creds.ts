@@ -26,12 +26,11 @@ let failedAttempts = 0;
 
 export const getSsoCachedLogin = (profile: Profile): CachedCredential => {
   const files = readdirSync(AWS_SSO_CACHE_PATH);
-  const now = new Date();
   for (const file of files) {
     const data = loadJson(join(AWS_SSO_CACHE_PATH, file));
     if (
       isCredential(data) &&
-      !isExpired(now, data.expiresAt) &&
+      !isExpired(data.expiresAt) &&
       isMatchingStartUrl(data, profile)
     ) {
       return data;
