@@ -1,11 +1,9 @@
 # AWS SSO Credentials Helper
 
-![Dependencies](https://img.shields.io/david/ryansonshine/aws-sso-creds-helper)
-![Downloads](https://img.shields.io/npm/dw/aws-sso-creds-helper)
-![GitHub issues](https://img.shields.io/github/issues/ryansonshine/aws-sso-creds-helper)
-![License](https://img.shields.io/npm/l/aws-sso-creds-helper)
-![Version](https://img.shields.io/npm/v/aws-sso-creds-helper)
-[![Build Status](https://travis-ci.com/ryansonshine/aws-sso-creds-helper.svg?branch=master)](https://travis-ci.com/ryansonshine/aws-sso-creds-helper)
+[![npm package][npm-img]][npm-url]
+[![Build Status][build-img]][build-url]
+[![Downloads][downloads-img]][downloads-url]
+[![Issues][issues-img]][issues-url]
 
 When using `aws sso login` on [AWS CLI v2](https://aws.amazon.com/blogs/developer/aws-cli-v2-is-now-generally-available/)
 as of July 27th, 2020, the credentials are stored so they will work with the CLI
@@ -57,3 +55,12 @@ if you use multiple profiles to switch profiles and then grab the credentials in
 ```sh
 alias awsmyprofile="awsp my-profile && ssocreds -p my-profile"
 ```
+
+[build-img]:https://travis-ci.com/ryansonshine/aws-sso-creds-helper.svg?branch=master
+[build-url]:https://travis-ci.com/ryansonshine/aws-sso-creds-helper
+[downloads-img]:https://img.shields.io/npm/dw/aws-sso-creds-helper
+[downloads-url]:https://www.npmtrends.com/aws-sso-creds-helper
+[npm-img]:https://img.shields.io/npm/v/aws-sso-creds-helper
+[npm-url]:https://www.npmjs.com/package/aws-sso-creds-helper
+[issues-img]:https://img.shields.io/github/issues/ryansonshine/aws-sso-creds-helper
+[issues-url]:https://github.com/ryansonshine/aws-sso-creds-helper/issues
