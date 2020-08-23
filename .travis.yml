@@ -1,19 +1,24 @@
 language: node_js
+os: linux
+dist: xenial
 
 node_js:
+  - 14
   - 12
   - 10
 
+script:
+  - npm run test
+  - npm run build
+
 jobs:
   include:
-    # Define the release stage that runs semantic-release
+    # https://github.com/semantic-release/semantic-release/blob/master/docs/recipes/travis.md
     - stage: release
       node_js: lts/*
-      # Advanced: optionally overwrite your default `script` step to skip the tests
-      # script: skip
+      script: skip # overwrite tests
       deploy:
         provider: script
-        skip_cleanup: true
+        cleanup: false
         script:
-          - npm run build
-          - npm run semantic-release
+          - semantic-release
