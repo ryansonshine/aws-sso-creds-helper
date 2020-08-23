@@ -21,4 +21,5 @@ jobs:
         provider: script
         cleanup: false
         script:
-          - semantic-release
+          - echo "test"
+          - npm run semantic-release
