@@ -11,6 +11,9 @@ script:
   - npm run test
   - npm run build
 
+after_success:
+  - npm run coverage
+
 jobs:
   include:
     # https://github.com/semantic-release/semantic-release/blob/master/docs/recipes/travis.md
