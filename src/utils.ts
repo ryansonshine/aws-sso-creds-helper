@@ -1,7 +1,7 @@
 import { writeFileSync, readFileSync, existsSync, copyFileSync } from 'fs';
 import { parse, encode } from 'ini';
 import { ParsedConfig, CachedCredential, Profile } from './types';
-import { exec as cpExec } from 'child_process';
+import { exec } from 'child_process';
 import { promisify } from 'util';
 import { ExpiredCredsError } from './errors';
 
@@ -46,9 +46,10 @@ export const isMatchingStartUrl = (
   return cred.startUrl === profile?.sso_start_url;
 };
 
-export const isExpired = (now: Date, expiresAt: string): boolean => {
+export const isExpired = (expiresAt: string): boolean => {
+  const now = Date.now();
   const exp = new Date(expiresAt.replace('UTC', ''));
-  return now.getTime() > exp.getTime();
+  return now > exp.getTime();
 };
 
 export const isCredential = (
@@ -61,8 +62,8 @@ export const isCredential = (
 };
 
 export const awsSsoLogin = async (profileName: string): Promise<void> => {
-  const exec = promisify(cpExec);
-  await exec(`aws sso login --profile ${profileName}`);
+  const pexec = promisify(exec);
+  await pexec(`aws sso login --profile ${profileName}`);
 };
 
 export const isExpiredCredsError = (e: unknown): e is ExpiredCredsError =>

@@ -28,5 +28,6 @@ module.exports = {
     'node/no-unpublished-import': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
 };
