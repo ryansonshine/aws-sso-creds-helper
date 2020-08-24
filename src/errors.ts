@@ -20,7 +20,7 @@ export class AwsSdkError extends Error {
     this.name = this.constructor.name;
     this.message = message;
 
-    Object.setPrototypeOf(this, ExpiredCredsError.prototype);
+    Object.setPrototypeOf(this, AwsSdkError.prototype);
   }
 }
 
@@ -32,6 +32,6 @@ export class ProfileNotFoundError extends Error {
     this.name = this.constructor.name;
     this.message = message;
 
-    Object.setPrototypeOf(this, ExpiredCredsError.prototype);
+    Object.setPrototypeOf(this, ProfileNotFoundError.prototype);
   }
 }

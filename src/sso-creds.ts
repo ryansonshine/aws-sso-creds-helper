@@ -96,10 +96,10 @@ export const getProfile = (profileName: string): Profile => {
   return profile;
 };
 
-export async function run({
+export const run = async ({
   profileName,
   proxyEnabled = false,
-}: RunArgs): Promise<void> {
+}: RunArgs): Promise<void> => {
   try {
     const profile = getProfile(profileName);
     const cachedLogin = getSsoCachedLogin(profile);
@@ -118,4 +118,4 @@ export async function run({
       throw e;
     }
   }
-}
+};

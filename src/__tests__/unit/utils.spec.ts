@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { CachedCredential, Profile } from '../types';
-import * as utils from '../utils';
 import fs from 'fs';
 import cp from 'child_process';
 import nodeUtil from 'util';
-import { ExpiredCredsError } from '../errors';
+import * as utils from '../../utils';
+import { CachedCredential, Profile } from '../../types';
+import { ExpiredCredsError } from '../../errors';
+import { testCredential, testProfile } from '../doubles';
 
 const filename = '/tmp/filename';
 
@@ -105,17 +105,11 @@ describe('utils', () => {
     it('should return true on matching urls', () => {
       const startUrl = 'test-startUrl';
       const cred: CachedCredential = {
-        accessToken: 'test',
-        expiresAt: new Date().toISOString(),
-        region: 'us-east-1',
+        ...testCredential,
         startUrl,
       };
       const profile: Profile = {
-        output: 'json',
-        region: 'us-east-1',
-        sso_account_id: 'test',
-        sso_region: 'us-east-1',
-        sso_role_name: '',
+        ...testProfile,
         sso_start_url: startUrl,
       };
 
@@ -127,17 +121,11 @@ describe('utils', () => {
     it('should return false on un-matched urls', () => {
       const startUrl = 'test-startUrl';
       const cred: CachedCredential = {
-        accessToken: 'test',
-        expiresAt: new Date().toISOString(),
-        region: 'us-east-1',
+        ...testCredential,
         startUrl,
       };
       const profile: Profile = {
-        output: 'json',
-        region: 'us-east-1',
-        sso_account_id: 'test',
-        sso_region: 'us-east-1',
-        sso_role_name: '',
+        ...testProfile,
         sso_start_url: 'mismatched-start-url',
       };
 
@@ -147,13 +135,7 @@ describe('utils', () => {
     });
 
     it('should not throw an error on being passed a null value for profile', () => {
-      const startUrl = 'test-startUrl';
-      const cred: CachedCredential = {
-        accessToken: 'test',
-        expiresAt: new Date().toISOString(),
-        region: 'us-east-1',
-        startUrl,
-      };
+      const cred: CachedCredential = testCredential;
 
       // @ts-expect-error
       const fn = () => utils.isMatchingStartUrl(cred, null);
@@ -192,12 +174,7 @@ describe('utils', () => {
 
   describe('isCredential', () => {
     it('should return true when a credential is passed', () => {
-      const validCredential: CachedCredential = {
-        accessToken: 'test',
-        expiresAt: new Date().toISOString(),
-        region: 'us-east-1',
-        startUrl: 'test',
-      };
+      const validCredential: CachedCredential = testCredential;
 
       const result = utils.isCredential(validCredential);
 
@@ -206,10 +183,7 @@ describe('utils', () => {
 
     it('should return false when an object without required props is passed', () => {
       const validCredential: CachedCredential = {
-        accessToken: 'test',
-        expiresAt: new Date().toISOString(),
-        region: 'us-east-1',
-        startUrl: 'test',
+        ...testCredential,
       };
       delete validCredential.accessToken;
 
