@@ -4,7 +4,7 @@
 [![Build Status][build-img]][build-url]
 [![Downloads][downloads-img]][downloads-url]
 [![Issues][issues-img]][issues-url]
-[![Code Coverage][codecov-img]][codecov-url]
+<!-- [![Code Coverage][codecov-img]][codecov-url] -->
 
 When using `aws sso login` on [AWS CLI v2](https://aws.amazon.com/blogs/developer/aws-cli-v2-is-now-generally-available/)
 as of July 27th, 2020, the credentials are stored so they will work with the CLI
