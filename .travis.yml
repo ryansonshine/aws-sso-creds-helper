@@ -23,4 +23,4 @@ jobs:
         provider: script
         cleanup: false
         script:
-          - npx semantic-release
+          - npm run build && npx semantic-release
