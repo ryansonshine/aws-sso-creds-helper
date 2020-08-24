@@ -37,11 +37,7 @@
     "aws sso credentials",
     "aws authentication",
     "aws single sign on",
-    "aws cli v2",
-    "aws sdk",
-    "awscli login",
-    "aws",
-    "sso"
+    "aws cli v2"
   ],
   "devDependencies": {
     "@types/ini": "^1.3.30",
