@@ -21,6 +21,6 @@ jobs:
       node_js: lts/*
       deploy:
         provider: script
-        cleanup: false
+        skip_cleanup: true
         script:
-          - npm run build && npx semantic-release
+          - npx semantic-release
