@@ -9,3 +9,6 @@ coverage/
 
 # todos
 TODOS.md
+
+# ESLint
+.eslint_cache
