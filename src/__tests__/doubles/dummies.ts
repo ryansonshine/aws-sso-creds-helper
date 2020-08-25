@@ -1,4 +1,5 @@
 import { Profile, CachedCredential } from '../../types';
+import { RoleCredentials } from 'aws-sdk/clients/sso';
 
 export const testProfile: Profile = {
   output: 'json',
@@ -14,4 +15,11 @@ export const testCredential: CachedCredential = {
   expiresAt: new Date().toISOString(),
   region: 'us-east-1',
   startUrl: 'test-startUrl',
+};
+
+export const testRoleCredential: RoleCredentials = {
+  accessKeyId: 'test-accessKeyId',
+  expiration: 1598368519475,
+  secretAccessKey: 'test-secretAccessKey',
+  sessionToken: 'test-sessionToken',
 };

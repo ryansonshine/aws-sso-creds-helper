@@ -56,6 +56,8 @@ export const isCredential = (
   config: Profile | CachedCredential | unknown
 ): config is CachedCredential => {
   return Boolean(
+    // https://github.com/istanbuljs/istanbuljs/issues/516
+    /* istanbul ignore next */
     (config as CachedCredential)?.accessToken &&
       (config as CachedCredential).expiresAt
   );
