@@ -21,8 +21,6 @@ module.exports = {
     'node/no-unsupported-features/es-syntax': 'off',
     'node/no-missing-require': 'off',
     'node/shebang': 'off',
-    // See: https://github.com/typescript-eslint/typescript-eslint/issues/1856
-    'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     quotes: ['warn', 'single', { avoidEscape: true }],
     'node/no-unpublished-import': 'off',

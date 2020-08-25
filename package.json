@@ -29,6 +29,7 @@
     "lint": "eslint ./src/ --fix",
     "clean": "rm -rf ./lib/",
     "test": "jest --coverage",
+    "start": "TS_NODE_FILES=true ts-node ./src/cli.ts",
     "coverage": "codecov",
     "test:watch": "jest --watch",
     "semantic-release": "semantic-release"

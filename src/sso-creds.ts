@@ -18,10 +18,10 @@ import {
 import { ExpiredCredsError, AwsSdkError, ProfileNotFoundError } from './errors';
 import { getSSOClient } from './aws-sdk';
 
-const BASE_PATH = join(homedir(), '.aws');
-const AWS_CONFIG_PATH = join(BASE_PATH, 'config');
-const AWS_CREDENTIAL_PATH = join(BASE_PATH, 'credentials');
-const AWS_SSO_CACHE_PATH = join(BASE_PATH, 'sso', 'cache');
+export const BASE_PATH = join(homedir(), '.aws');
+export const AWS_CONFIG_PATH = join(BASE_PATH, 'config');
+export const AWS_CREDENTIAL_PATH = join(BASE_PATH, 'credentials');
+export const AWS_SSO_CACHE_PATH = join(BASE_PATH, 'sso', 'cache');
 let failedAttempts = 0;
 
 export const getSsoCachedLogin = (profile: Profile): CachedCredential => {
@@ -75,12 +75,8 @@ export const updateAwsCredentials = (
     region,
   };
 
-  backupCredentials();
-  writeConfig(AWS_CREDENTIAL_PATH, config);
-};
-
-export const backupCredentials = (): void => {
   createBackup(AWS_CREDENTIAL_PATH);
+  writeConfig(AWS_CREDENTIAL_PATH, config);
 };
 
 export const getProfile = (profileName: string): Profile => {
