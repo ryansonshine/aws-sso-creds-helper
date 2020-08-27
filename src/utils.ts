@@ -3,7 +3,7 @@ import { parse, encode } from 'ini';
 import { ParsedConfig, CachedCredential, Profile } from './types';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { ExpiredCredsError } from './errors';
+import { ExpiredCredsError, AwsSdkError } from './errors';
 
 export const writeConfig = <T>(filename: string, config: T): void => {
   writeFileSync(filename, encode(config), { encoding: 'utf-8', flag: 'w' });
@@ -70,3 +70,6 @@ export const awsSsoLogin = async (profileName: string): Promise<void> => {
 
 export const isExpiredCredsError = (e: unknown): e is ExpiredCredsError =>
   e instanceof ExpiredCredsError;
+
+export const isSdkError = (e: unknown): e is AwsSdkError =>
+  e instanceof AwsSdkError;

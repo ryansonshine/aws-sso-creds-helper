@@ -14,6 +14,7 @@ import {
   createBackup,
   awsSsoLogin,
   isExpiredCredsError,
+  isSdkError,
 } from './utils';
 import { ExpiredCredsError, AwsSdkError, ProfileNotFoundError } from './errors';
 import { getSSOClient } from './aws-sdk';
@@ -44,18 +45,21 @@ export const getSsoRoleCredentials = async (
   login: CachedCredential,
   useProxy: boolean
 ): Promise<RoleCredentials> => {
-  const sso = getSSOClient(profile.sso_region, useProxy);
-  const result = await sso
-    .getRoleCredentials({
-      accessToken: login.accessToken,
-      accountId: profile.sso_account_id,
-      roleName: profile.sso_role_name,
-    })
-    .promise();
-  if (!result.roleCredentials) {
+  try {
+    const sso = getSSOClient(profile.sso_region, useProxy);
+    const result = await sso
+      .getRoleCredentials({
+        accessToken: login.accessToken,
+        accountId: profile.sso_account_id,
+        roleName: profile.sso_role_name,
+      })
+      .promise();
+
+    if (!result.roleCredentials) throw new AwsSdkError();
+    return result.roleCredentials;
+  } catch (e) {
     throw new AwsSdkError();
   }
-  return result.roleCredentials;
 };
 
 export const updateAwsCredentials = (
@@ -106,7 +110,7 @@ export const run = async ({
     );
     updateAwsCredentials(profileName, profile, credentials);
   } catch (e) {
-    if (isExpiredCredsError(e) && !failedAttempts) {
+    if ((isExpiredCredsError(e) || isSdkError(e)) && !failedAttempts) {
       failedAttempts++;
       await awsSsoLogin(profileName);
       await run({ profileName, proxyEnabled });
