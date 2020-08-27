@@ -3,7 +3,7 @@ import cp from 'child_process';
 import nodeUtil from 'util';
 import * as utils from '../../utils';
 import { CachedCredential, Profile } from '../../types';
-import { ExpiredCredsError } from '../../errors';
+import { ExpiredCredsError, AwsSdkError } from '../../errors';
 import { testCredential, testProfile } from '../doubles';
 
 const filename = '/tmp/filename';
@@ -219,6 +219,24 @@ describe('utils', () => {
       const error = new Error();
 
       const result = utils.isExpiredCredsError(error);
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('isSdkError', () => {
+    it('should return true when passed an instance of AwsSdkError', () => {
+      const error = new AwsSdkError();
+
+      const result = utils.isSdkError(error);
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false when passed a generic error', () => {
+      const error = new Error();
+
+      const result = utils.isSdkError(error);
 
       expect(result).toBe(false);
     });
