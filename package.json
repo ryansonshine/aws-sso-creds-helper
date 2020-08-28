@@ -31,6 +31,7 @@
     "test": "jest --coverage",
     "start": "TS_NODE_FILES=true ts-node ./src/cli.ts",
     "coverage": "codecov",
+    "cm": "cz",
     "test:watch": "jest --watch",
     "semantic-release": "semantic-release"
   },
