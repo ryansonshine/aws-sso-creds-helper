@@ -5,6 +5,7 @@
 [![Downloads][downloads-img]][downloads-url]
 [![Issues][issues-img]][issues-url]
 [![Code Coverage][codecov-img]][codecov-url]
+[![Semantic Release][semantic-release-img]][semantic-release-url]
 
 When using `aws sso login` on [AWS CLI v2](https://aws.amazon.com/blogs/developer/aws-cli-v2-is-now-generally-available/)
 as of July 27th, 2020, the credentials are stored so they will work with the CLI
@@ -67,3 +68,5 @@ alias awsmyprofile="awsp my-profile && ssocreds -p my-profile"
 [issues-url]:https://github.com/ryansonshine/aws-sso-creds-helper/issues
 [codecov-img]:https://codecov.io/gh/ryansonshine/aws-sso-creds-helper/branch/master/graph/badge.svg
 [codecov-url]:https://codecov.io/gh/ryansonshine/aws-sso-creds-helper
+[semantic-release-img]:https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+[semantic-release-url]:https://github.com/semantic-release/semantic-release
