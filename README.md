@@ -61,7 +61,7 @@ alias awsmyprofile="awsp my-profile && ssocreds -p my-profile"
 
 [build-img]:https://travis-ci.com/ryansonshine/aws-sso-creds-helper.svg?branch=master
 [build-url]:https://travis-ci.com/ryansonshine/aws-sso-creds-helper
-[downloads-img]:https://img.shields.io/npm/dw/aws-sso-creds-helper
+[downloads-img]:https://img.shields.io/npm/dt/aws-sso-creds-helper
 [downloads-url]:https://www.npmtrends.com/aws-sso-creds-helper
 [npm-img]:https://img.shields.io/npm/v/aws-sso-creds-helper
 [npm-url]:https://www.npmjs.com/package/aws-sso-creds-helper
