@@ -15,6 +15,17 @@ describe('aws-sdk', () => {
     process.env = PREV_ENV;
   });
 
+  describe('setSdkProfile', () => {
+    it('should update the AWS config credentials', () => {
+      const previousCreds = { ...AWS.config.credentials };
+      const params: Parameters<typeof awsSdk.setSdkProfile> = ['default'];
+
+      awsSdk.setSdkProfile(...params);
+
+      expect(previousCreds).not.toEqual(AWS.config.credentials);
+    });
+  });
+
   describe('getSSOClient', () => {
     it('should return an instance of AWS.SSO', () => {
       const params: Parameters<typeof awsSdk.getSSOClient> = [

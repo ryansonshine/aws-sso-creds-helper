@@ -3,6 +3,12 @@ import proxyAgent from 'proxy-agent';
 import * as AWS from 'aws-sdk';
 import { logger } from './logger';
 
+export const setSdkProfile = (profile: string): void => {
+  const credentials = new AWS.SharedIniFileCredentials({ profile });
+  logger.debug(`Setting AWS.SharedIniFileCredentials to profile ${profile}`);
+  AWS.config.credentials = credentials;
+};
+
 export const getSSOClient = (region: Region, useProxy: boolean): AWS.SSO => {
   if (useProxy) {
     const proxy =
