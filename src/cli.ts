@@ -25,6 +25,7 @@ program
 
 const profile = program.profile as string;
 const logLevel = Boolean(program.debug || program.verbose);
+
 logger.setVerbose(logLevel);
 logger.log(`AWS SSO Creds Helper v${version}`);
 

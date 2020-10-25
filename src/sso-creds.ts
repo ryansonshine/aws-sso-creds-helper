@@ -17,7 +17,7 @@ import {
   isSdkError,
 } from './utils';
 import { AwsSdkError, ExpiredCredsError, ProfileNotFoundError } from './errors';
-import { getSSOClient } from './aws-sdk';
+import { getSSOClient, setSdkProfile } from './aws-sdk';
 import { logger } from './logger';
 
 export const BASE_PATH = join(homedir(), '.aws');
@@ -104,6 +104,7 @@ export const getProfile = (profileName: string): Profile => {
     throw new ProfileNotFoundError(profileName);
   }
   logger.debug('Profile data:', JSON.stringify(profile, null, 2));
+  setSdkProfile(profileName);
 
   return profile;
 };
