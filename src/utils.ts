@@ -66,7 +66,7 @@ export const isExpired = (expiresAt: string): boolean => {
   const now = Date.now();
   const exp = new Date(expiresAt.replace('UTC', ''));
   const expired = now > exp.getTime();
-  logger.debug(`Credential is ${expired ? '' : 'NOT'} expired`);
+  logger.debug(`Credential is ${expired ? '' : 'NOT '}expired`);
   return expired;
 };
 
@@ -79,7 +79,7 @@ export const isCredential = (
     (config as CachedCredential)?.accessToken &&
       (config as CachedCredential).expiresAt
   );
-  logger.debug(`Configuration is ${isCred ? '' : 'NOT'} a credential config`);
+  logger.debug(`Configuration is ${isCred ? '' : 'NOT '}a credential config`);
   return isCred;
 };
 
@@ -98,12 +98,12 @@ export const awsSsoLogin = async (profileName: string): Promise<void> => {
 
 export const isExpiredCredsError = (e: unknown): e is ExpiredCredsError => {
   const isExpErr = e instanceof ExpiredCredsError;
-  logger.debug(`Error is ${isExpErr ? '' : 'NOT'} an ExpiredCredsError`);
+  logger.debug(`Error is ${isExpErr ? '' : 'NOT '}an ExpiredCredsError`);
   return isExpErr;
 };
 
 export const isSdkError = (e: unknown): e is AwsSdkError => {
   const isSdkErr = e instanceof AwsSdkError;
-  logger.debug(`Error is ${isSdkErr ? '' : 'NOT'} an AwsSdkError`);
+  logger.debug(`Error is ${isSdkErr ? '' : 'NOT '}an AwsSdkError`);
   return isSdkErr;
 };
