@@ -1,5 +1,6 @@
 import * as awsSdk from '../../aws-sdk';
 import * as AWS from 'aws-sdk';
+import { logger } from '../../logger';
 import proxyAgent from 'proxy-agent';
 
 describe('aws-sdk', () => {
@@ -67,6 +68,25 @@ describe('aws-sdk', () => {
       awsSdk.getSSOClient(...params);
 
       expect(update).toHaveBeenCalledWith(...expected);
+    });
+
+    it('should log a message when a proxy is found in env vars but useProxy is false', () => {
+      const logSpy = jest.spyOn(logger, 'debug');
+      const proxy = 'http://localhost/test';
+      const params: Parameters<typeof awsSdk.getSSOClient> = [
+        'us-east-1',
+        false,
+      ];
+      const expected = [
+        expect.anything(),
+        expect.anything(),
+        expect.stringContaining('--use-proxy'),
+      ];
+      process.env.HTTPS_PROXY = proxy;
+
+      awsSdk.getSSOClient(...params);
+
+      expect(logSpy).toHaveBeenCalledWith(...expected);
     });
   });
 });

@@ -16,8 +16,9 @@ import {
   isExpiredCredsError,
   isSdkError,
 } from './utils';
-import { ExpiredCredsError, AwsSdkError, ProfileNotFoundError } from './errors';
+import { AwsSdkError, ExpiredCredsError, ProfileNotFoundError } from './errors';
 import { getSSOClient } from './aws-sdk';
+import { logger } from './logger';
 
 export const BASE_PATH = join(homedir(), '.aws');
 export const AWS_CONFIG_PATH = join(BASE_PATH, 'config');
@@ -27,8 +28,11 @@ let failedAttempts = 0;
 
 export const getSsoCachedLogin = (profile: Profile): CachedCredential => {
   const files = readdirSync(AWS_SSO_CACHE_PATH);
+  logger.debug(`Found ${files.length} cache files in ${AWS_SSO_CACHE_PATH}`);
   for (const file of files) {
-    const data = loadJson(join(AWS_SSO_CACHE_PATH, file));
+    const cachedFilePath = join(AWS_SSO_CACHE_PATH, file);
+    logger.debug(`Checking ${file} in ${cachedFilePath}`);
+    const data = loadJson(cachedFilePath);
     if (
       isCredential(data) &&
       !isExpired(data.expiresAt) &&
@@ -54,11 +58,15 @@ export const getSsoRoleCredentials = async (
         roleName: profile.sso_role_name,
       })
       .promise();
+    if (!result.roleCredentials) {
+      logger.debug('AWS SDK did not return role credentials');
+      throw new AwsSdkError();
+    }
 
-    if (!result.roleCredentials) throw new AwsSdkError();
     return result.roleCredentials;
   } catch (e) {
-    throw new AwsSdkError();
+    logger.debug('Failed to get role credentials');
+    throw e;
   }
 };
 
@@ -71,7 +79,9 @@ export const updateAwsCredentials = (
   const config = isFile(AWS_CREDENTIAL_PATH)
     ? readConfig<Credential>(AWS_CREDENTIAL_PATH)
     : {};
-
+  logger.debug(
+    `Updating credentials for profile ${profileName} in region ${region}`
+  );
   config[profileName] = {
     aws_access_key_id: credentials.accessKeyId || '',
     aws_secret_access_key: credentials.secretAccessKey || '',
@@ -87,11 +97,13 @@ export const getProfile = (profileName: string): Profile => {
   const config = readConfig<Profile>(AWS_CONFIG_PATH);
   const fullProfileName =
     profileName === 'default' ? 'default' : `profile ${profileName}`;
+  logger.debug(`Full profile name for lookup is ${fullProfileName}`);
   const profile = config[fullProfileName];
 
   if (!profile) {
     throw new ProfileNotFoundError(profileName);
   }
+  logger.debug('Profile data:', JSON.stringify(profile, null, 2));
 
   return profile;
 };
@@ -111,6 +123,9 @@ export const run = async ({
     updateAwsCredentials(profileName, profile, credentials);
   } catch (e) {
     if ((isExpiredCredsError(e) || isSdkError(e)) && !failedAttempts) {
+      logger.debug(
+        'Failed on first pass to get credentials, incrementing failed attempts and trying again'
+      );
       failedAttempts++;
       await awsSsoLogin(profileName);
       await run({ profileName, proxyEnabled });

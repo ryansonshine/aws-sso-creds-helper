@@ -5,6 +5,7 @@ import * as utils from '../../utils';
 import { CachedCredential, Profile } from '../../types';
 import { ExpiredCredsError, AwsSdkError } from '../../errors';
 import { testCredential, testProfile } from '../doubles';
+import { logger } from '../../logger';
 
 const filename = '/tmp/filename';
 
@@ -203,6 +204,20 @@ describe('utils', () => {
       await utils.awsSsoLogin(profileName);
 
       expect(exec).toHaveBeenCalledWith(...expected);
+    });
+
+    it('should log failure when an error is thrown', async () => {
+      const profileName = 'test-profile';
+      const spy = jest.spyOn(logger, 'debug');
+      jest.spyOn(nodeUtil, 'promisify').mockImplementation(() => {
+        throw new Error();
+      });
+      const expected = expect.stringContaining('Failed to run');
+
+      const fn = () => utils.awsSsoLogin(profileName);
+
+      await expect(fn()).rejects.toThrow();
+      expect(spy).toHaveBeenCalledWith(expected);
     });
   });
 
