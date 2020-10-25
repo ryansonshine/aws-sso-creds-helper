@@ -15,6 +15,7 @@ program
     'default'
   )
   .option('-d, --debug', 'enables verbose logging', false)
+  .option('-v, --verbose', 'enables verbose logging', false)
   .option(
     '-u, --use-proxy',
     'flag for the aws sdk to use HTTPS_PROXY found in env',
@@ -23,7 +24,8 @@ program
   .parse(process.argv);
 
 const profile = program.profile as string;
-logger.setVerbose(Boolean(program.debug));
+const logLevel = Boolean(program.debug || program.verbose);
+logger.setVerbose(logLevel);
 logger.log(`AWS SSO Creds Helper v${version}`);
 
 export async function main(): Promise<void> {
@@ -35,7 +37,7 @@ export async function main(): Promise<void> {
     );
   } catch (e) {
     logger.error(`Failed to load SSO credentials for ${profile}`);
-    handleError(e, program.debug);
+    handleError(e, logLevel);
   }
 }
 
