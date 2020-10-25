@@ -186,7 +186,6 @@ describe('utils', () => {
       const validCredential: CachedCredential = {
         ...testCredential,
       };
-      // @ts-expect-error
       delete validCredential.accessToken;
 
       const result = utils.isCredential(validCredential);
