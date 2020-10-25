@@ -2,18 +2,9 @@ const mockVersion = jest.fn().mockReturnThis();
 const mockName = jest.fn().mockReturnThis();
 const mockOption = jest.fn().mockReturnThis();
 const mockParse = jest.fn().mockReturnThis();
-const mockRed = jest.fn();
-const mockGreen = jest.fn();
 
+jest.mock('../../logger');
 jest.mock('../../sso-creds');
-jest.mock('chalk', () => {
-  return {
-    white: jest.fn(),
-    blue: jest.fn(),
-    green: mockGreen,
-    red: mockRed,
-  };
-});
 jest.mock('commander', () => {
   return {
     Command: function () {
@@ -52,7 +43,6 @@ describe('cli', () => {
       expect(mockName).toHaveBeenCalled();
       expect(mockOption).toHaveBeenCalled();
       expect(mockParse).toHaveBeenCalled();
-      expect(mockGreen).toHaveBeenCalled();
       expect(program).toBeTruthy();
     });
 
@@ -64,7 +54,6 @@ describe('cli', () => {
       void main();
 
       expect(mockSsoCreds.run).toHaveBeenCalled();
-      expect(mockRed).toHaveBeenCalled();
       expect(program).toBeTruthy();
     });
   });
