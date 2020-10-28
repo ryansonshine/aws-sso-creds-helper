@@ -1,5 +1,8 @@
 import chalk from 'chalk';
+import os from 'os';
 import { PrintArgs } from './types';
+import { promisify } from 'util';
+import { exec } from 'child_process';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const name: string = require('../package.json').name;
@@ -43,7 +46,6 @@ const log = (...messages: string[]): void =>
 
 const setVerbose = (level: boolean): void => {
   verbose = level;
-  if (level) debug('====DEBUG====');
 };
 
 const isVerbose = (): boolean => verbose;
@@ -69,6 +71,51 @@ export const handleError = (e: Error, debug = false): void => {
       )
     );
   }
+};
+
+export const getCliVersion = async (): Promise<string> => {
+  const pexec = promisify(exec);
+  let version = '';
+  try {
+    const { stdout = '' } = await pexec('aws --version');
+    version = stdout.replace('\n', '');
+  } catch (e) {
+    version = 'NOT FOUND';
+  }
+  return version;
+};
+
+export const getCliConfig = async (profile = 'default'): Promise<string> => {
+  const pexec = promisify(exec);
+  let config = '';
+  try {
+    const { stdout = '' } = await pexec(
+      `aws configure list --profile ${profile}`
+    );
+    config = stdout;
+  } catch (e) {
+    config = 'NOT FOUND';
+  }
+  return config;
+};
+
+export const logSysInfo = async (profile: string): Promise<void> => {
+  const [cliVersion, profileConfig] = await Promise.all([
+    getCliVersion(),
+    getCliConfig(profile),
+  ]);
+
+  debug('===========');
+  debug('SYSTEM INFO');
+  debug('===========');
+  debug(`AWS CLI Version ${cliVersion}`);
+  debug(`OS ${os.platform()} ${os.release()}`);
+  debug(`Node ${process.version}`);
+
+  debug('==============');
+  debug('PROFILE CONFIG');
+  debug('==============');
+  debug(profileConfig);
 };
 
 export const logger = {

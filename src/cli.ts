@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Command } from 'commander';
-import { handleError, logger } from './logger';
+import { handleError, logger, logSysInfo } from './logger';
 import { run } from './sso-creds';
 
 const version: string = require('../package.json').version;
@@ -30,6 +30,7 @@ logger.setVerbose(logLevel);
 logger.log(`AWS SSO Creds Helper v${version}`);
 
 export async function main(): Promise<void> {
+  if (logger.isVerbose()) void (await logSysInfo(profile));
   logger.info(`Getting SSO credentials for profile ${profile}`);
   try {
     await run({ profileName: program.profile, proxyEnabled: program.useProxy });

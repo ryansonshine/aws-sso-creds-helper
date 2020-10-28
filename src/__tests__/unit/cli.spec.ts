@@ -18,43 +18,52 @@ jest.mock('commander', () => {
   };
 });
 
-import * as ssoCreds from '../../sso-creds';
 import commander, { Command } from 'commander';
 import { main } from '../../cli';
+import { logSysInfo, logger } from '../../logger';
+import { run } from '../../sso-creds';
 
-const mockSsoCreds = ssoCreds as jest.Mocked<typeof ssoCreds>;
+const mockRun = run as jest.MockedFunction<typeof run>;
+const mockLogSysInfo = logSysInfo as jest.MockedFunction<typeof logSysInfo>;
+const mockLogger = logger as jest.Mocked<typeof logger>;
 
 describe('cli', () => {
   let program: commander.Command;
 
   beforeEach(() => {
-    mockSsoCreds.run.mockReset();
+    mockRun.mockReset();
     program = new Command();
   });
 
-  describe('statusMsg', () => {
-    it('should invoke the main function after program is finished', () => {
-      mockSsoCreds.run.mockResolvedValue();
+  it('should invoke the main function after program is finished', async () => {
+    mockRun.mockResolvedValue();
 
-      void main();
+    await main();
 
-      expect(mockSsoCreds.run).toHaveBeenCalled();
-      expect(mockVersion).toHaveBeenCalled();
-      expect(mockName).toHaveBeenCalled();
-      expect(mockOption).toHaveBeenCalled();
-      expect(mockParse).toHaveBeenCalled();
-      expect(program).toBeTruthy();
+    expect(mockRun).toHaveBeenCalled();
+    expect(mockVersion).toHaveBeenCalled();
+    expect(mockName).toHaveBeenCalled();
+    expect(mockOption).toHaveBeenCalled();
+    expect(mockParse).toHaveBeenCalled();
+    expect(program).toBeTruthy();
+  });
+
+  it('should log an error when run fails', async () => {
+    mockRun.mockImplementation(() => {
+      throw new Error();
     });
 
-    it('should log an error when run fails', () => {
-      mockSsoCreds.run.mockImplementation(() => {
-        throw new Error();
-      });
+    await main();
 
-      void main();
+    expect(mockRun).toHaveBeenCalled();
+    expect(program).toBeTruthy();
+  });
 
-      expect(mockSsoCreds.run).toHaveBeenCalled();
-      expect(program).toBeTruthy();
-    });
+  it('should call logSysInfo when debug flag is set', async () => {
+    mockLogger.isVerbose.mockReturnValue(true);
+
+    await main();
+
+    expect(mockLogSysInfo).toHaveBeenCalled();
   });
 });
