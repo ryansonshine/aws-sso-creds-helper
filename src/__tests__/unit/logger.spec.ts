@@ -1,14 +1,22 @@
 import {
   formatMessages,
+  getCliConfig,
+  getCliVersion,
   handleError,
   logger,
+  logSysInfo,
   print,
   SEPARATOR,
 } from '../../logger';
 import { PrintArgs } from '../../types';
+import * as nodeUtil from 'util';
+import * as cp from 'child_process';
 
 const logSpy = jest.spyOn(console, 'log');
 const errorSpy = jest.spyOn(console, 'error');
+
+jest.mock('util');
+jest.mock('child_process');
 
 describe('logger', () => {
   beforeEach(() => {
@@ -165,5 +173,106 @@ describe('logger', () => {
 
       expect(spy).toHaveBeenCalledWith(expected);
     });
+  });
+
+  describe('getCliVersion', () => {
+    it('should replace newlines returned from exec output', async () => {
+      const newLines = '\n\n';
+      jest.spyOn(cp, 'exec').mockReturnValue({ stdout: newLines } as any);
+      jest.spyOn(nodeUtil, 'promisify').mockImplementation(exec => exec);
+
+      const result = await getCliVersion();
+
+      expect(result).not.toContain(newLines);
+    });
+
+    it('should return NOT FOUND when exec throws an error', async () => {
+      jest.spyOn(cp, 'exec').mockImplementation(() => {
+        throw new Error();
+      });
+      jest.spyOn(nodeUtil, 'promisify').mockImplementation(exec => exec);
+
+      const result = await getCliVersion();
+
+      expect(result).toContain('NOT FOUND');
+    });
+
+    it('should return an empty string if no error is thrown and no stdout is returned', async () => {
+      jest.spyOn(cp, 'exec').mockReturnValue({} as any);
+      jest.spyOn(nodeUtil, 'promisify').mockImplementation(exec => exec);
+
+      const result = await getCliVersion();
+
+      expect(result).toEqual('');
+    });
+  });
+
+  describe('getCliConfig', () => {
+    it('should return the value returned from stdout', async () => {
+      const expected = 'stdout';
+      jest.spyOn(cp, 'exec').mockReturnValue({ stdout: expected } as any);
+      jest.spyOn(nodeUtil, 'promisify').mockImplementation(exec => exec);
+
+      const result = await getCliConfig();
+
+      expect(result).toEqual(expected);
+    });
+
+    it('should pass in the provided profile to exec', async () => {
+      const profile = 'default';
+      const exec = jest.spyOn(cp, 'exec');
+      jest.spyOn(nodeUtil, 'promisify').mockImplementation(exec => exec);
+      const expected = expect.stringContaining(profile);
+
+      await getCliConfig(profile);
+
+      expect(exec).toHaveBeenCalledWith(expected);
+    });
+
+    it('should return an empty string if no error is thrown and no stdout is returned', async () => {
+      jest.spyOn(cp, 'exec').mockReturnValue({} as any);
+      jest.spyOn(nodeUtil, 'promisify').mockImplementation(exec => exec);
+
+      const result = await getCliConfig();
+
+      expect(result).toEqual('');
+    });
+
+    it('should return NOT FOUND when exec throws an error', async () => {
+      jest.spyOn(cp, 'exec').mockImplementation(() => {
+        throw new Error();
+      });
+      jest.spyOn(nodeUtil, 'promisify').mockImplementation(exec => exec);
+
+      const result = await getCliConfig('default');
+
+      expect(result).toContain('NOT FOUND');
+    });
+  });
+
+  describe('logSysInfo', () => {
+    it('should invoke exec for version and config', async () => {
+      const exec = jest.spyOn(cp, 'exec');
+      jest.spyOn(nodeUtil, 'promisify').mockImplementation(exec => exec);
+
+      await logSysInfo('default');
+
+      expect(exec).toHaveBeenCalledTimes(2);
+    });
+
+    // it('should grab stdout from config', async () => {
+
+    // });
+
+    // it('should log not found messages on error', async () => {
+    //   jest.spyOn(cp, 'exec').mockImplementation(() => {
+    //     throw new Error();
+    //   });
+    //   jest.spyOn(nodeUtil, 'promisify').mockImplementation(exec => exec);
+
+    //   const fn = async () => await logSysInfo('default');
+
+    //   expect(fn).not.toThrow();
+    // });
   });
 });
