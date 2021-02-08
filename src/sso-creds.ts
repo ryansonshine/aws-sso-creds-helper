@@ -22,7 +22,8 @@ import { logger } from './logger';
 
 export const BASE_PATH = join(homedir(), '.aws');
 export const AWS_CONFIG_PATH = join(BASE_PATH, 'config');
-export const AWS_CREDENTIAL_PATH = join(BASE_PATH, 'credentials');
+export const AWS_CREDENTIAL_PATH =
+  process.env.AWS_SHARED_CREDENTIALS_FILE ?? join(BASE_PATH, 'credentials');
 export const AWS_SSO_CACHE_PATH = join(BASE_PATH, 'sso', 'cache');
 let failedAttempts = 0;
 
