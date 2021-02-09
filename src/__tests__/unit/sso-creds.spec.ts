@@ -36,6 +36,35 @@ describe('sso-creds', () => {
     jest.resetAllMocks();
   });
 
+  describe('AWS_CREDENTIAL_PATH', () => {
+    const PREV_ENV = process.env;
+    beforeEach(() => {
+      process.env = { ...PREV_ENV };
+    });
+
+    afterAll(() => {
+      process.env = PREV_ENV;
+    });
+
+    it('should use process.env.AWS_SHARED_CREDENTIALS_FILE as the path when it exists', () => {
+      const altPath = '/tmp/test-path';
+      process.env.AWS_SHARED_CREDENTIALS_FILE = altPath;
+
+      const { AWS_CREDENTIAL_PATH } = require('../../sso-creds');
+
+      expect(AWS_CREDENTIAL_PATH).toEqual(altPath);
+    });
+
+    it('should not process.env.AWS_SHARED_CREDENTIALS_FILE as the path when none exists', () => {
+      const altPath = '/tmp/test-path';
+      process.env.AWS_SHARED_CREDENTIALS_FILE = undefined;
+
+      const { AWS_CREDENTIAL_PATH } = require('../../sso-creds');
+
+      expect(AWS_CREDENTIAL_PATH).not.toEqual(altPath);
+    });
+  });
+
   describe('getSsoCachedLogin', () => {
     it('should throw an ExpiredCredsError if the cache file is expired', () => {
       const params: Parameters<typeof ssoCreds.getSsoCachedLogin> = [
