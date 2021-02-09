@@ -81,7 +81,7 @@ export const updateAwsCredentials = (
     ? readConfig<Credential>(AWS_CREDENTIAL_PATH)
     : {};
   logger.debug(
-    `Updating credentials for profile ${profileName} in region ${region}`
+    `Updating credentials for profile ${profileName} in region ${region} in ${AWS_CREDENTIAL_PATH}`
   );
   config[profileName] = {
     aws_access_key_id: credentials.accessKeyId || '',
