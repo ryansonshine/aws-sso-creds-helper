@@ -53,7 +53,15 @@ export const isMatchingStartUrl = (
   cred: CachedCredential,
   profile: Profile
 ): boolean => {
-  const isMatch = cred.startUrl === profile?.sso_start_url;
+  let isMatch = false;
+  if (
+    profile?.sso_start_url.length > 0 &&
+    cred.startUrl.length != profile?.sso_start_url.length
+  ) {
+    isMatch = cred.startUrl.indexOf(profile?.sso_start_url) > 0;
+  } else {
+    isMatch = cred.startUrl === profile?.sso_start_url;
+  }
   logger.debug(
     `Credential start url ${cred.startUrl} ${
       isMatch ? 'matches' : 'does not match'
