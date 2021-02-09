@@ -136,6 +136,16 @@ describe('utils', () => {
       expect(result).toBe(true);
     });
 
+    it('should return false when profile does not exist', () => {
+      const cred = testCredential;
+      const profile = undefined;
+
+      // @ts-expect-error Testing profile as undefined
+      const result = utils.isMatchingStartUrl(cred, profile);
+
+      expect(result).toBe(false);
+    });
+
     it('should return false on un-matched urls', () => {
       const startUrl = 'test-startUrl';
       const cred: CachedCredential = {

@@ -54,19 +54,22 @@ export const isMatchingStartUrl = (
   profile: Profile
 ): boolean => {
   let isMatch = false;
+  if (!profile || !profile.sso_start_url) {
+    return false;
+  }
   if (
-    profile?.sso_start_url.length > 0 &&
-    cred.startUrl.length != profile?.sso_start_url.length
+    profile.sso_start_url.length > 0 &&
+    cred.startUrl.length !== profile.sso_start_url.length
   ) {
-    isMatch = cred.startUrl.indexOf(profile?.sso_start_url) == 0;
+    isMatch = cred.startUrl.indexOf(profile.sso_start_url) === 0;
   } else {
-    isMatch = cred.startUrl === profile?.sso_start_url;
+    isMatch = cred.startUrl === profile.sso_start_url;
   }
 
   logger.debug(
     `Credential start url ${cred.startUrl} ${
       isMatch ? 'matches' : 'does not match'
-    } profile sso start url ${profile?.sso_start_url}`
+    } profile sso start url ${profile.sso_start_url}`
   );
   return isMatch;
 };
