@@ -22,7 +22,8 @@ import { logger } from './logger';
 
 export const BASE_PATH = join(homedir(), '.aws');
 export const AWS_CONFIG_PATH = join(BASE_PATH, 'config');
-export const AWS_CREDENTIAL_PATH = join(BASE_PATH, 'credentials');
+export const AWS_CREDENTIAL_PATH =
+  process.env.AWS_SHARED_CREDENTIALS_FILE || join(BASE_PATH, 'credentials');
 export const AWS_SSO_CACHE_PATH = join(BASE_PATH, 'sso', 'cache');
 let failedAttempts = 0;
 
@@ -80,7 +81,7 @@ export const updateAwsCredentials = (
     ? readConfig<Credential>(AWS_CREDENTIAL_PATH)
     : {};
   logger.debug(
-    `Updating credentials for profile ${profileName} in region ${region}`
+    `Updating credentials for profile ${profileName} in region ${region} in ${AWS_CREDENTIAL_PATH}`
   );
   config[profileName] = {
     aws_access_key_id: credentials.accessKeyId || '',
