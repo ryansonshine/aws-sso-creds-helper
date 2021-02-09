@@ -58,7 +58,7 @@ export const isMatchingStartUrl = (
     profile?.sso_start_url.length > 0 &&
     cred.startUrl.length != profile?.sso_start_url.length
   ) {
-    isMatch = cred.startUrl.indexOf(profile?.sso_start_url) > 0;
+    isMatch = cred.startUrl.indexOf(profile?.sso_start_url) >= 0;
   } else {
     isMatch = cred.startUrl === profile?.sso_start_url;
   }

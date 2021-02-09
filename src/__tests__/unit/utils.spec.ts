@@ -119,6 +119,24 @@ describe('utils', () => {
       expect(result).toBe(true);
     });
 
+    it('should return true on urls ending with #/ but otherwise matching', () => {
+      const closeStartUrl = 'test-startUrl#/';
+      const startUrl = 'test-startUrl';
+      const cred: CachedCredential = {
+        ...testCredential,
+        startUrl: closeStartUrl
+      };
+
+      const profile: Profile = {
+        ...testProfile,
+        sso_start_url: startUrl,
+      };
+
+      const result = utils.isMatchingStartUrl(cred, profile);
+
+      expect(result).toBe(true);
+    });
+
     it('should return false on un-matched urls', () => {
       const startUrl = 'test-startUrl';
       const cred: CachedCredential = {
