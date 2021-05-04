@@ -22,6 +22,4 @@ jobs:
       deploy:
         provider: script
         skip_cleanup: true
-        script: |
-          npx lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts registry.npmjs.org &&
-          npx semantic-release
+        script: npx lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts registry.npmjs.org && npx semantic-release
