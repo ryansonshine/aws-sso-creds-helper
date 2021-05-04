@@ -8,6 +8,7 @@ node_js:
   - 10
 
 script:
+  - npx lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts registry.npmjs.org
   - npm run test
   - npm run build
 
