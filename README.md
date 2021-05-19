@@ -60,8 +60,8 @@ if you use multiple profiles to switch profiles and then grab the credentials in
 alias awsmyprofile="awsp my-profile && ssocreds -p my-profile"
 ```
 
-[build-img]:https://travis-ci.com/ryansonshine/aws-sso-creds-helper.svg?branch=master
-[build-url]:https://travis-ci.com/ryansonshine/aws-sso-creds-helper
+[build-img]:https://github.com/ryansonshine/aws-sso-creds-helper/actions/workflows/release.yml/badge.svg
+[build-url]:https://github.com/ryansonshine/aws-sso-creds-helper/actions/workflows/release.yml
 [downloads-img]:https://img.shields.io/npm/dt/aws-sso-creds-helper
 [downloads-url]:https://www.npmtrends.com/aws-sso-creds-helper
 [npm-img]:https://img.shields.io/npm/v/aws-sso-creds-helper
