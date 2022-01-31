@@ -96,8 +96,7 @@ export const updateAwsCredentials = (
 
 export const getProfile = (profileName: string): Profile => {
   const config = readConfig<Profile>(AWS_CONFIG_PATH);
-  const fullProfileName =
-    profileName === 'default' ? 'default' : `profile ${profileName}`;
+  const fullProfileName = `profile ${profileName}`;
   logger.debug(`Full profile name for lookup is ${fullProfileName}`);
   const profile = config[fullProfileName];
 
