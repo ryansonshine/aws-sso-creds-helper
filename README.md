@@ -1,7 +1,4 @@
 # AWS SSO Credentials Helper
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![npm package][npm-img]][npm-url]
 [![Build Status][build-img]][build-url]
@@ -10,6 +7,9 @@
 [![Code Coverage][codecov-img]][codecov-url]
 [![Commitizen Friendly][commitizen-img]][commitizen-url]
 [![Semantic Release][semantic-release-img]][semantic-release-url]
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 When using `aws sso login` on [AWS CLI v2](https://aws.amazon.com/blogs/developer/aws-cli-v2-is-now-generally-available/)
 as of July 27th, 2020, the credentials are stored so they will work with the CLI
@@ -24,7 +24,7 @@ repo will be archived.
 ## Install
 
 ```sh
-$ npm install -g aws-sso-creds-helper
+npm install -g aws-sso-creds-helper
 ```
 
 ## Usage
