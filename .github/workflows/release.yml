@@ -2,9 +2,11 @@
 # https://github.com/ryansonshine/ryansonshine/blob/main/.github/workflows/release.yml
 name: Release
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
+
 jobs:
   release:
     permissions:
