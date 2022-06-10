@@ -1,0 +1,10 @@
+name: Auto Merge
+
+on: [pull_request]
+
+jobs:
+  automerge:
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ryansonshine/ryansonshine/.github/workflows/automerge.yml@main
