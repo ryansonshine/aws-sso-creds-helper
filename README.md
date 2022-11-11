@@ -18,7 +18,7 @@ users by updating/creating the corresponding profile section in `~/.aws/credenti
 temporary role credentials. Once a solution is implemented in AWS CLI v2, this
 repo will be archived.
 
-¹ Renamed to IAM Identity Center as of July 26th, 2022.
+¹Renamed to IAM Identity Center as of July 26th, 2022.
 
 ## Install
 
