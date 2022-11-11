@@ -29,8 +29,15 @@ let failedAttempts = 0;
 
 export const getSsoCachedLogin = (profile: Profile): CachedCredential => {
   const files = readdirSync(AWS_SSO_CACHE_PATH);
-  logger.debug(`Found ${files.length} cache files in ${AWS_SSO_CACHE_PATH}`);
+  logger.debug(
+    `Found ${files.length} cache files in ${AWS_SSO_CACHE_PATH}:\n${files.join(
+      '\n'
+    )}`
+  );
   for (const file of files) {
+    if (!file.includes('.json')) {
+      continue;
+    }
     const cachedFilePath = join(AWS_SSO_CACHE_PATH, file);
     logger.debug(`Checking ${file} in ${cachedFilePath}`);
     const data = loadJson(cachedFilePath);

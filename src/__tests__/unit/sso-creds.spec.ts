@@ -71,7 +71,7 @@ describe('sso-creds', () => {
         testProfile,
       ];
       // @ts-expect-error
-      mockFs.readdirSync.mockReturnValue(['test']);
+      mockFs.readdirSync.mockReturnValue(['test.json']);
       mockUtils.loadJson.mockReturnValue(testCredential);
       mockUtils.isCredential.mockReturnValue(true);
       mockUtils.isMatchingStartUrl.mockReturnValue(true);
@@ -98,7 +98,7 @@ describe('sso-creds', () => {
         testProfile,
       ];
       // @ts-expect-error
-      mockFs.readdirSync.mockReturnValue(['test']);
+      mockFs.readdirSync.mockReturnValue(['test.json']);
       mockUtils.loadJson.mockReturnValue(testCredential);
       mockUtils.isCredential.mockReturnValue(true);
       mockUtils.isExpired.mockReturnValue(false);
@@ -115,7 +115,7 @@ describe('sso-creds', () => {
       ];
       const expected = testCredential;
       // @ts-expect-error
-      mockFs.readdirSync.mockReturnValue(['test']);
+      mockFs.readdirSync.mockReturnValue(['test.json']);
       mockUtils.loadJson.mockReturnValue(expected);
       mockUtils.isCredential.mockReturnValue(true);
       mockUtils.isExpired.mockReturnValue(false);
@@ -124,6 +124,27 @@ describe('sso-creds', () => {
       const result = ssoCreds.getSsoCachedLogin(...params);
 
       expect(result).toEqual(expected);
+    });
+
+    it('should skip checking non json files', () => {
+      const params: Parameters<typeof ssoCreds.getSsoCachedLogin> = [
+        testProfile,
+      ];
+      // @ts-expect-error
+      mockFs.readdirSync.mockReturnValue(['test.html', 'valid.json']);
+      mockUtils.loadJson.mockReturnValue(testCredential);
+      mockUtils.isCredential.mockReturnValue(true);
+      mockUtils.isExpired.mockReturnValue(false);
+      mockUtils.isMatchingStartUrl.mockReturnValue(true);
+
+      ssoCreds.getSsoCachedLogin(...params);
+
+      expect(mockUtils.loadJson).not.toHaveBeenCalledWith(
+        `${ssoCreds.AWS_SSO_CACHE_PATH}/test.html`
+      );
+      expect(mockUtils.loadJson).toHaveBeenCalledWith(
+        `${ssoCreds.AWS_SSO_CACHE_PATH}/valid.json`
+      );
     });
   });
 
