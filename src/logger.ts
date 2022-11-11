@@ -92,7 +92,7 @@ export const getCliConfig = async (profile = 'default'): Promise<string> => {
     const { stdout = '' } = await pexec(
       `aws configure list --profile ${profile}`
     );
-    config = stdout;
+    config += `\n${stdout}`;
   } catch (e) {
     config = 'NOT FOUND';
   }

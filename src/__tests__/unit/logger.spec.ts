@@ -208,12 +208,13 @@ describe('logger', () => {
   });
 
   describe('getCliConfig', () => {
-    it('should return the value returned from stdout', async () => {
-      const expected = 'stdout';
-      jest.spyOn(cp, 'exec').mockReturnValue({ stdout: expected } as any);
+    it('should return the value returned from stdout with a leading newline', async () => {
+      const expected = '\nstdout';
+      jest.spyOn(cp, 'exec').mockReturnValue({ stdout: 'stdout' } as any);
       jest.spyOn(nodeUtil, 'promisify').mockImplementation(exec => exec);
 
       const result = await getCliConfig();
+      console.log('result: ', result);
 
       expect(result).toEqual(expected);
     });
@@ -235,7 +236,7 @@ describe('logger', () => {
 
       const result = await getCliConfig();
 
-      expect(result).toEqual('');
+      expect(result).toEqual('\n');
     });
 
     it('should return NOT FOUND when exec throws an error', async () => {
