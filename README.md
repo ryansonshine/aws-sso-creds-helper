@@ -16,10 +16,12 @@ as of July 27th, 2020, the credentials are stored so they will work with the CLI
 itself (v2) but don't work on the AWS SDKs and other tools that expect credentials
 to be readable from `~/.aws/credentials` (v1).
 
-This package aims to streamline updating the AWS credentials file for AWS SSO users by
-updating/creating the corresponding profile section in `~/.aws/credentials` with
+This package aims to streamline updating the AWS credentials file for AWS SSO¹
+users by updating/creating the corresponding profile section in `~/.aws/credentials` with
 temporary role credentials. Once a solution is implemented in AWS CLI v2, this
 repo will be archived.
+
+¹ Renamed to IAM Identity Center as of July 26th, 2022.
 
 ## Install
 
