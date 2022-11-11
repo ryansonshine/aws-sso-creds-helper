@@ -31,6 +31,9 @@ npm install -g aws-sso-creds-helper
 
 ## Usage
 
+> Note: If you have not configured your AWS CLI to use SSO for your profile, follow the
+instructions [here][cli-sso-config-doc].
+
 ```sh
 Usage: ssocreds [options]
 
@@ -79,6 +82,7 @@ alias awsmyprofile="awsp my-profile && ssocreds -p my-profile"
 [semantic-release-url]:https://github.com/semantic-release/semantic-release
 [commitizen-img]:https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
 [commitizen-url]:http://commitizen.github.io/cz-cli/
+[cli-sso-config-doc]:https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html
 
 ## Contributors ✨
 
