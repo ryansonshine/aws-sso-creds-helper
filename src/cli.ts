@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Command } from 'commander';
-import { handleError, logger, logSysInfo } from './logger';
+import { logger } from './logger';
 import { run } from './sso-creds';
 
 const version: string = require('../package.json').version;
@@ -30,7 +30,7 @@ logger.setVerbose(logLevel);
 logger.log(`AWS SSO Creds Helper v${version}`);
 
 export async function main(): Promise<void> {
-  if (logger.isVerbose()) void (await logSysInfo(profile));
+  if (logger.isVerbose()) void (await logger.logSystemInfo(profile));
   logger.info(`Getting SSO credentials for profile ${profile}`);
   try {
     await run({ profileName: program.profile, proxyEnabled: program.useProxy });
@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
     );
   } catch (e) {
     logger.error(`Failed to load SSO credentials for ${profile}`);
-    handleError(e, logLevel);
+    logger.handleError(e as Error, logLevel);
   }
 }
 

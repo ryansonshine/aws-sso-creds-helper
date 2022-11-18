@@ -20,11 +20,10 @@ jest.mock('commander', () => {
 
 import commander, { Command } from 'commander';
 import { main } from '../../cli';
-import { logSysInfo, logger } from '../../logger';
+import { logger } from '../../logger';
 import { run } from '../../sso-creds';
 
 const mockRun = run as jest.MockedFunction<typeof run>;
-const mockLogSysInfo = logSysInfo as jest.MockedFunction<typeof logSysInfo>;
 const mockLogger = logger as jest.Mocked<typeof logger>;
 
 describe('cli', () => {
@@ -64,6 +63,7 @@ describe('cli', () => {
 
     await main();
 
-    expect(mockLogSysInfo).toHaveBeenCalled();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(mockLogger.logSystemInfo).toHaveBeenCalled();
   });
 });

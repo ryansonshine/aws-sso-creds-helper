@@ -3,17 +3,10 @@ import {
   RoleNameType,
   AccountIdType,
 } from 'aws-sdk/clients/sso';
-import { Color } from 'chalk';
 
 export interface RunArgs {
   profileName: string;
   proxyEnabled?: boolean;
-}
-
-export interface PrintArgs {
-  color: typeof Color;
-  messages: string[];
-  error?: boolean;
 }
 
 export interface Profile {
