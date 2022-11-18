@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
     );
   } catch (e) {
     logger.error(`Failed to load SSO credentials for ${profile}`);
-    logger.handleError(e as Error, logLevel);
+    logger.handleError(e, logLevel);
   }
 }
 
