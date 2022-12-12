@@ -21,15 +21,16 @@ repo will be archived.
 ¹Renamed to IAM Identity Center as of July 26th, 2022.
 
 > **Note**
+>
 > As of December 2022, profiles configured with an SSO Session Name using the
 > AWS CLI v2.8.2 or later have added functionality for the AWS SDKs to use SSO
 > credentials without them being present in the `~/.aws/credentials` file.
 >
 > This project **will** continue to be maintained and currently supports both legacy
 > and new profile formats, since I'm currently not aware if all third party AWS
-> tools have made changes required adopted this change (if any).
+> tools have made changes required adopted this change.
 >
-> See "[SSO token provider configuration with automatic authentication refresh][cli-auto-refresh-doc]"
+> See [SSO token provider configuration with automatic authentication refresh][cli-auto-refresh-doc]
 > for additional details.
 
 ## Install
