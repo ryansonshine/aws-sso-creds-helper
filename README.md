@@ -84,7 +84,7 @@ alias awsmyprofile="awsp my-profile && ssocreds -p my-profile"
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -99,6 +99,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center"><a href="https://blog.stobias.dev/"><img src="https://avatars.githubusercontent.com/u/590677?v=4?s=100" width="100px;" alt="Steven Tobias"/><br /><sub><b>Steven Tobias</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/commits?author=stobias123" title="Code">💻</a></td>
       <td align="center"><a href="https://github.com/sclarson"><img src="https://avatars.githubusercontent.com/u/393467?v=4?s=100" width="100px;" alt="sclarson"/><br /><sub><b>sclarson</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/commits?author=sclarson" title="Code">💻</a></td>
       <td align="center"><a href="https://github.com/colesiegel"><img src="https://avatars.githubusercontent.com/u/14875904?v=4?s=100" width="100px;" alt="Cole Siegel"/><br /><sub><b>Cole Siegel</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/issues?q=author%3Acolesiegel" title="Bug reports">🐛</a></td>
+      <td align="center"><a href="https://github.com/rutomo"><img src="https://avatars.githubusercontent.com/u/1312306?v=4?s=100" width="100px;" alt="Rinaldi Utomo"/><br /><sub><b>Rinaldi Utomo</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/issues?q=author%3Arutomo" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
