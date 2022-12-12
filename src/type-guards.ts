@@ -38,7 +38,6 @@ export const isProfileV1 = (profile: unknown): profile is ProfileV1 => {
     /* istanbul ignore next */
     (profile as ProfileV1)?.sso_start_url && (profile as ProfileV1).sso_region
   );
-  console.log('evaluating if profile is v1', profile);
   logger.debug(`Loaded profile is version ${isV1 ? '1' : ''}`);
   return isV1;
 };
