@@ -16,7 +16,12 @@ import * as ssoCreds from '../../sso-creds';
 import * as utils from '../../utils';
 import * as awsSdk from '../../aws-sdk';
 import fs from 'fs';
-import { testProfile, testCredential, testRoleCredential } from '../doubles';
+import {
+  testProfileV1,
+  testCredential,
+  testRoleCredential,
+  testProfileV2,
+} from '../doubles';
 import {
   ExpiredCredsError,
   AwsSdkError,
@@ -24,7 +29,7 @@ import {
 } from '../../errors';
 import SSO from 'aws-sdk/clients/sso';
 import { AWS_CREDENTIAL_PATH } from '../../sso-creds';
-import { ParsedConfig, Credential, Profile } from '../../types';
+import { ParsedConfig, Credential, ConfigFileEntry } from '../../types';
 
 const mockUtils = utils as jest.Mocked<typeof utils>;
 const mockFs = fs as jest.Mocked<typeof fs>;
@@ -68,12 +73,11 @@ describe('sso-creds', () => {
   describe('getSsoCachedLogin', () => {
     it('should throw an ExpiredCredsError if the cache file is expired', () => {
       const params: Parameters<typeof ssoCreds.getSsoCachedLogin> = [
-        testProfile,
+        testProfileV1,
       ];
       // @ts-expect-error
       mockFs.readdirSync.mockReturnValue(['test.json']);
       mockUtils.loadJson.mockReturnValue(testCredential);
-      mockUtils.isCredential.mockReturnValue(true);
       mockUtils.isMatchingStartUrl.mockReturnValue(true);
       mockUtils.isExpired.mockReturnValue(true);
 
@@ -84,7 +88,7 @@ describe('sso-creds', () => {
 
     it('should throw an ExpiredCredsError if no cache files are present', () => {
       const params: Parameters<typeof ssoCreds.getSsoCachedLogin> = [
-        testProfile,
+        testProfileV1,
       ];
       mockFs.readdirSync.mockReturnValue([]);
 
@@ -95,12 +99,11 @@ describe('sso-creds', () => {
 
     it('should return an ExpiredCredsError if startUrl does not match any cached creds', () => {
       const params: Parameters<typeof ssoCreds.getSsoCachedLogin> = [
-        testProfile,
+        testProfileV1,
       ];
       // @ts-expect-error
       mockFs.readdirSync.mockReturnValue(['test.json']);
       mockUtils.loadJson.mockReturnValue(testCredential);
-      mockUtils.isCredential.mockReturnValue(true);
       mockUtils.isExpired.mockReturnValue(false);
       mockUtils.isMatchingStartUrl.mockReturnValue(false);
 
@@ -111,13 +114,12 @@ describe('sso-creds', () => {
 
     it('should return credentials when all conditions pass on a file', () => {
       const params: Parameters<typeof ssoCreds.getSsoCachedLogin> = [
-        testProfile,
+        testProfileV1,
       ];
       const expected = testCredential;
       // @ts-expect-error
       mockFs.readdirSync.mockReturnValue(['test.json']);
       mockUtils.loadJson.mockReturnValue(expected);
-      mockUtils.isCredential.mockReturnValue(true);
       mockUtils.isExpired.mockReturnValue(false);
       mockUtils.isMatchingStartUrl.mockReturnValue(true);
 
@@ -128,12 +130,11 @@ describe('sso-creds', () => {
 
     it('should skip checking non json files', () => {
       const params: Parameters<typeof ssoCreds.getSsoCachedLogin> = [
-        testProfile,
+        testProfileV1,
       ];
       // @ts-expect-error
       mockFs.readdirSync.mockReturnValue(['test.html', 'valid.json']);
       mockUtils.loadJson.mockReturnValue(testCredential);
-      mockUtils.isCredential.mockReturnValue(true);
       mockUtils.isExpired.mockReturnValue(false);
       mockUtils.isMatchingStartUrl.mockReturnValue(true);
 
@@ -159,7 +160,7 @@ describe('sso-creds', () => {
 
     it('should throw an AwsSdkError if getRoleCredentials does not return credentials', async () => {
       const params: Parameters<typeof ssoCreds.getSsoRoleCredentials> = [
-        testProfile,
+        testProfileV1,
         testCredential,
         false,
       ];
@@ -174,7 +175,7 @@ describe('sso-creds', () => {
 
     it('should invoke getSSOClient with expected params', async () => {
       const params: Parameters<typeof ssoCreds.getSsoRoleCredentials> = [
-        testProfile,
+        testProfileV1,
         testCredential,
         false,
       ];
@@ -190,7 +191,7 @@ describe('sso-creds', () => {
 
     it('should return roleCredentials with a successful sdk call', async () => {
       const params: Parameters<typeof ssoCreds.getSsoRoleCredentials> = [
-        testProfile,
+        testProfileV1,
         testCredential,
         false,
       ];
@@ -208,7 +209,7 @@ describe('sso-creds', () => {
     it('should create a config object for the profile passed in when no config exists', () => {
       const params: Parameters<typeof ssoCreds.updateAwsCredentials> = [
         profileName,
-        testProfile,
+        testProfileV1,
         testRoleCredential,
       ];
       const expectedConfig: ParsedConfig<Credential> = {
@@ -234,7 +235,7 @@ describe('sso-creds', () => {
       const params: Parameters<typeof ssoCreds.updateAwsCredentials> = [
         profileName,
         // @ts-expect-error
-        { ...testProfile, region: undefined },
+        { ...testProfileV1, region: undefined },
         {
           ...testRoleCredential,
           accessKeyId: undefined,
@@ -263,7 +264,7 @@ describe('sso-creds', () => {
     it('should add a section to the config object when other profiles already exist', () => {
       const params: Parameters<typeof ssoCreds.updateAwsCredentials> = [
         profileName,
-        testProfile,
+        testProfileV1,
         testRoleCredential,
       ];
       const existingConfig: ParsedConfig<Credential> = {
@@ -298,7 +299,7 @@ describe('sso-creds', () => {
     it('should make a call to backupCredentials before writing to config', () => {
       const params: Parameters<typeof ssoCreds.updateAwsCredentials> = [
         profileName,
-        testProfile,
+        testProfileV1,
         testRoleCredential,
       ];
       const callOrder: string[] = [];
@@ -315,51 +316,77 @@ describe('sso-creds', () => {
   describe('getProfile', () => {
     it('should use default as the profile name when default is provided', () => {
       const profileName = 'default';
-      const config: ParsedConfig<Profile> = {
-        [profileName]: testProfile,
+      const config: ParsedConfig<ConfigFileEntry> = {
+        [profileName]: testProfileV1,
       };
       mockUtils.readConfig.mockReturnValue(config);
 
       const result = ssoCreds.getProfile(profileName);
 
-      expect(result).toEqual(testProfile);
+      expect(result).toEqual(testProfileV1);
     });
 
     it('should prepend "profile " to the profile name if the profile is not default', () => {
       const profileName = 'my-profile';
-      const config: ParsedConfig<Profile> = {
-        [`profile ${profileName}`]: testProfile,
+      const config: ParsedConfig<ConfigFileEntry> = {
+        [`profile ${profileName}`]: testProfileV1,
       };
       mockUtils.readConfig.mockReturnValue(config);
 
       const result = ssoCreds.getProfile(profileName);
 
-      expect(result).toEqual(testProfile);
+      expect(result).toEqual(testProfileV1);
     });
 
     it('should throw a ProfileNotFoundError when no profile is found', () => {
       const profileName = 'default';
-      const config: ParsedConfig<Profile> = {};
+      const config: ParsedConfig<ConfigFileEntry> = {};
       mockUtils.readConfig.mockReturnValue(config);
 
       const fn = () => ssoCreds.getProfile(profileName);
 
       expect(fn).toThrowError(ProfileNotFoundError);
     });
+
+    it('should get the start_url from the sso-session when the profile is v2', () => {
+      const profileName = 'v2';
+      const sessionName = 'my-session-name';
+      const startUrl = 'https://example.awsapps.com/start/';
+      const config: ParsedConfig<ConfigFileEntry> = {
+        [`profile ${profileName}`]: {
+          ...testProfileV2,
+          sso_session: sessionName,
+        },
+        [`sso-session ${sessionName}`]: {
+          sso_start_url: startUrl,
+          sso_region: 'us-east-1',
+          sso_registration_scopes: 'sso:account:access',
+        },
+      };
+      mockUtils.readConfig.mockReturnValue(config);
+
+      const result = ssoCreds.getProfile(profileName);
+
+      expect(result.sso_start_url).toEqual(startUrl);
+    });
   });
 
   describe('run', () => {
+    beforeEach(() => {
+      jest.resetModules();
+    });
+
     const profileName = 'test-profileName';
 
     it('should update aws credentials when all subsequent calls pass', async () => {
       const params: Parameters<typeof ssoCreds.run> = [{ profileName }];
       const expected: Parameters<typeof ssoCreds.updateAwsCredentials> = [
         profileName,
-        testProfile,
+        testProfileV1,
         testRoleCredential,
       ];
       const updateAwsCredentials = jest.spyOn(ssoCreds, 'updateAwsCredentials');
-      jest.spyOn(ssoCreds, 'getProfile').mockReturnValue(testProfile);
+      jest.spyOn(ssoCreds, 'getProfile').mockReturnValue(testProfileV1);
       jest.spyOn(ssoCreds, 'getSsoCachedLogin').mockReturnValue(testCredential);
       jest
         .spyOn(ssoCreds, 'getSsoRoleCredentials')
@@ -372,7 +399,7 @@ describe('sso-creds', () => {
 
     it('should throw an error on first execution with errors unrelated to credential expiration', async () => {
       const params: Parameters<typeof ssoCreds.run> = [{ profileName }];
-      jest.spyOn(ssoCreds, 'getProfile').mockReturnValue(testProfile);
+      jest.spyOn(ssoCreds, 'getProfile').mockReturnValue(testProfileV1);
       jest.spyOn(ssoCreds, 'getSsoCachedLogin').mockReturnValue(testCredential);
       jest
         .spyOn(ssoCreds, 'getSsoRoleCredentials')
@@ -381,22 +408,6 @@ describe('sso-creds', () => {
       const fn = () => ssoCreds.run(...params);
 
       await expect(fn).rejects.toThrow();
-    });
-
-    it('should call awsSsoLogin the first time an expired creds error is thrown', async () => {
-      const params: Parameters<typeof ssoCreds.run> = [{ profileName }];
-      jest.spyOn(ssoCreds, 'getProfile').mockReturnValueOnce(testProfile);
-      jest.spyOn(ssoCreds, 'getSsoCachedLogin').mockImplementationOnce(() => {
-        throw new ExpiredCredsError();
-      });
-      jest
-        .spyOn(ssoCreds, 'getSsoRoleCredentials')
-        .mockResolvedValueOnce(testRoleCredential);
-      mockUtils.isExpiredCredsError.mockReturnValueOnce(true);
-
-      await ssoCreds.run(...params);
-
-      expect(mockUtils.awsSsoLogin).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -2,23 +2,39 @@ import { homedir } from 'os';
 import { join } from 'path';
 import { readdirSync } from 'fs';
 import { RoleCredentials } from 'aws-sdk/clients/sso';
-import { Profile, CachedCredential, Credential, RunArgs } from './types';
+import {
+  ConfigFileEntry,
+  CachedCredential,
+  Credential,
+  RunArgs,
+  MappedProfile,
+} from './types';
 import {
   readConfig,
   writeConfig,
   loadJson,
-  isCredential,
   isExpired,
   isMatchingStartUrl,
   isFile,
   createBackup,
   awsSsoLogin,
-  isExpiredCredsError,
-  isSdkError,
 } from './utils';
-import { AwsSdkError, ExpiredCredsError, ProfileNotFoundError } from './errors';
+import {
+  AwsSdkError,
+  ExpiredCredsError,
+  ProfileNotFoundError,
+  InvalidProfile,
+} from './errors';
 import { getSSOClient, setSdkProfile } from './aws-sdk';
 import { logger } from './logger';
+import {
+  isProfileV2,
+  isSSOSessionProfile,
+  isCredential,
+  isProfileV1,
+  isExpiredCredsError,
+  isSdkError,
+} from './type-guards';
 
 export const BASE_PATH = join(homedir(), '.aws');
 export const AWS_CONFIG_PATH = join(BASE_PATH, 'config');
@@ -27,7 +43,7 @@ export const AWS_CREDENTIAL_PATH =
 export const AWS_SSO_CACHE_PATH = join(BASE_PATH, 'sso', 'cache');
 let failedAttempts = 0;
 
-export const getSsoCachedLogin = (profile: Profile): CachedCredential => {
+export const getSsoCachedLogin = (profile: MappedProfile): CachedCredential => {
   const files = readdirSync(AWS_SSO_CACHE_PATH);
   logger.debug(
     `Found ${files.length} cache files in ${AWS_SSO_CACHE_PATH}:\n${files.join(
@@ -53,7 +69,7 @@ export const getSsoCachedLogin = (profile: Profile): CachedCredential => {
 };
 
 export const getSsoRoleCredentials = async (
-  profile: Profile,
+  profile: MappedProfile,
   login: CachedCredential,
   useProxy: boolean
 ): Promise<RoleCredentials> => {
@@ -80,7 +96,7 @@ export const getSsoRoleCredentials = async (
 
 export const updateAwsCredentials = (
   profileName: string,
-  profile: Profile,
+  profile: MappedProfile,
   credentials: RoleCredentials
 ): void => {
   const region = profile.region || 'us-east-1';
@@ -101,8 +117,8 @@ export const updateAwsCredentials = (
   writeConfig(AWS_CREDENTIAL_PATH, config);
 };
 
-export const getProfile = (profileName: string): Profile => {
-  const config = readConfig<Profile>(AWS_CONFIG_PATH);
+export const getProfile = (profileName: string): MappedProfile => {
+  const config = readConfig<ConfigFileEntry>(AWS_CONFIG_PATH);
   const fullProfileName =
     profileName === 'default' ? 'default' : `profile ${profileName}`;
   logger.debug(`Full profile name for lookup is ${fullProfileName}`);
@@ -114,7 +130,22 @@ export const getProfile = (profileName: string): Profile => {
   logger.debug('Profile data:', JSON.stringify(profile, null, 2));
   setSdkProfile(profileName);
 
-  return profile;
+  if (isProfileV2(profile)) {
+    const ssoConfig = config[`sso-session ${profile.sso_session}`];
+    if (!isSSOSessionProfile(ssoConfig)) {
+      throw new InvalidProfile(profile.sso_session);
+    }
+
+    return {
+      ...profile,
+      sso_start_url: ssoConfig.sso_start_url,
+      sso_region: ssoConfig.sso_region,
+    };
+  } else if (isProfileV1(profile)) {
+    return profile;
+  } else {
+    throw new InvalidProfile(profileName);
+  }
 };
 
 export const run = async ({

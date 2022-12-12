@@ -1,9 +1,8 @@
 import { writeFileSync, readFileSync, existsSync, copyFileSync } from 'fs';
 import { parse, encode } from 'ini';
-import { ParsedConfig, CachedCredential, Profile } from './types';
+import { ParsedConfig, CachedCredential, MappedProfile } from './types';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { ExpiredCredsError, AwsSdkError } from './errors';
 import { logger } from './logger';
 
 export const writeConfig = <T>(filename: string, config: T): void => {
@@ -51,7 +50,7 @@ export const loadJson = (path: string): unknown => {
 
 export const isMatchingStartUrl = (
   cred: CachedCredential,
-  profile: Profile
+  profile: MappedProfile
 ): boolean => {
   let isMatch = false;
   if (!profile || !profile.sso_start_url) {
@@ -82,19 +81,6 @@ export const isExpired = (expiresAt: string): boolean => {
   return expired;
 };
 
-export const isCredential = (
-  config: Profile | CachedCredential | unknown
-): config is CachedCredential => {
-  const isCred = Boolean(
-    // https://github.com/istanbuljs/istanbuljs/issues/516
-    /* istanbul ignore next */
-    (config as CachedCredential)?.accessToken &&
-      (config as CachedCredential).expiresAt
-  );
-  logger.debug(`Configuration is ${isCred ? '' : 'NOT '}a credential config`);
-  return isCred;
-};
-
 export const awsSsoLogin = async (profileName: string): Promise<void> => {
   const cmd = `aws sso login --profile ${profileName}`;
   try {
@@ -106,16 +92,4 @@ export const awsSsoLogin = async (profileName: string): Promise<void> => {
     logger.debug(`Failed to run ${cmd}`);
     throw e;
   }
-};
-
-export const isExpiredCredsError = (e: unknown): e is ExpiredCredsError => {
-  const isExpErr = e instanceof ExpiredCredsError;
-  logger.debug(`Error is ${isExpErr ? '' : 'NOT '}an ExpiredCredsError`);
-  return isExpErr;
-};
-
-export const isSdkError = (e: unknown): e is AwsSdkError => {
-  const isSdkErr = e instanceof AwsSdkError;
-  logger.debug(`Error is ${isSdkErr ? '' : 'NOT '}an AwsSdkError`);
-  return isSdkErr;
 };
