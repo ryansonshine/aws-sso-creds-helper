@@ -100,6 +100,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center"><a href="https://github.com/sclarson"><img src="https://avatars.githubusercontent.com/u/393467?v=4?s=100" width="100px;" alt="sclarson"/><br /><sub><b>sclarson</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/commits?author=sclarson" title="Code">💻</a></td>
       <td align="center"><a href="https://github.com/colesiegel"><img src="https://avatars.githubusercontent.com/u/14875904?v=4?s=100" width="100px;" alt="Cole Siegel"/><br /><sub><b>Cole Siegel</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/issues?q=author%3Acolesiegel" title="Bug reports">🐛</a></td>
       <td align="center"><a href="https://github.com/rutomo"><img src="https://avatars.githubusercontent.com/u/1312306?v=4?s=100" width="100px;" alt="Rinaldi Utomo"/><br /><sub><b>Rinaldi Utomo</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/issues?q=author%3Arutomo" title="Bug reports">🐛</a></td>
+      <td align="center"><a href="https://github.com/diogobaltazar"><img src="https://avatars.githubusercontent.com/u/15616889?v=4?s=100" width="100px;" alt="diogo"/><br /><sub><b>diogo</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/issues?q=author%3Adiogobaltazar" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
