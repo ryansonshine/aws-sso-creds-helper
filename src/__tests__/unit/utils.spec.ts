@@ -2,9 +2,8 @@ import fs from 'fs';
 import cp from 'child_process';
 import nodeUtil from 'util';
 import * as utils from '../../utils';
-import { CachedCredential, Profile } from '../../types';
-import { ExpiredCredsError, AwsSdkError } from '../../errors';
-import { testCredential, testProfile } from '../doubles';
+import { CachedCredential, MappedProfile } from '../../types';
+import { testCredential, testProfileV1 } from '../doubles';
 import { logger } from '../../logger';
 
 const filename = '/tmp/filename';
@@ -109,8 +108,8 @@ describe('utils', () => {
         ...testCredential,
         startUrl,
       };
-      const profile: Profile = {
-        ...testProfile,
+      const profile: MappedProfile = {
+        ...testProfileV1,
         sso_start_url: startUrl,
       };
 
@@ -126,8 +125,8 @@ describe('utils', () => {
         ...testCredential,
         startUrl: startLikeUrl,
       };
-      const profile: Profile = {
-        ...testProfile,
+      const profile: MappedProfile = {
+        ...testProfileV1,
         sso_start_url: startUrl,
       };
 
@@ -152,8 +151,8 @@ describe('utils', () => {
         ...testCredential,
         startUrl,
       };
-      const profile: Profile = {
-        ...testProfile,
+      const profile: MappedProfile = {
+        ...testProfileV1,
         sso_start_url: 'mismatched-start-url',
       };
 
@@ -200,27 +199,6 @@ describe('utils', () => {
     });
   });
 
-  describe('isCredential', () => {
-    it('should return true when a credential is passed', () => {
-      const validCredential: CachedCredential = testCredential;
-
-      const result = utils.isCredential(validCredential);
-
-      expect(result).toBe(true);
-    });
-
-    it('should return false when an object without required props is passed', () => {
-      const validCredential: CachedCredential = {
-        ...testCredential,
-      };
-      delete validCredential.accessToken;
-
-      const result = utils.isCredential(validCredential);
-
-      expect(result).toBe(false);
-    });
-  });
-
   describe('awsSsoLogin', () => {
     it('should invoke exec with the provided profileName', async () => {
       const profileName = 'test-profile';
@@ -245,42 +223,6 @@ describe('utils', () => {
 
       await expect(fn()).rejects.toThrow();
       expect(spy).toHaveBeenCalledWith(expected);
-    });
-  });
-
-  describe('isExpiredCredsError', () => {
-    it('should return true when passed an instance of ExpiredCredsError', () => {
-      const error = new ExpiredCredsError();
-
-      const result = utils.isExpiredCredsError(error);
-
-      expect(result).toBe(true);
-    });
-
-    it('should return false when passed a generic error', () => {
-      const error = new Error();
-
-      const result = utils.isExpiredCredsError(error);
-
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('isSdkError', () => {
-    it('should return true when passed an instance of AwsSdkError', () => {
-      const error = new AwsSdkError();
-
-      const result = utils.isSdkError(error);
-
-      expect(result).toBe(true);
-    });
-
-    it('should return false when passed a generic error', () => {
-      const error = new Error();
-
-      const result = utils.isSdkError(error);
-
-      expect(result).toBe(false);
     });
   });
 });

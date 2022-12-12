@@ -2,6 +2,7 @@ import {
   ExpiredCredsError,
   AwsSdkError,
   ProfileNotFoundError,
+  InvalidProfile,
 } from '../../errors';
 
 describe('Errors', () => {
@@ -48,6 +49,14 @@ describe('Errors', () => {
       const error = new ProfileNotFoundError('test');
 
       expect(error).toBeInstanceOf(ProfileNotFoundError);
+    });
+  });
+
+  describe('InvalidProfile', () => {
+    it('should be an instanceof InvalidProfile', () => {
+      const error = new InvalidProfile('test');
+
+      expect(error).toBeInstanceOf(InvalidProfile);
     });
   });
 });

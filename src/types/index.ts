@@ -9,12 +9,40 @@ export interface RunArgs {
   proxyEnabled?: boolean;
 }
 
-export interface Profile {
+export type ConfigFileEntry = ProfileV1 | ProfileV2 | SSOSessionProfile;
+
+export interface MappedProfile {
   output: Output;
   region: Region;
   sso_account_id: AccountIdType;
   sso_region: Region;
   sso_role_name: RoleNameType;
+  sso_start_url: string;
+}
+
+/**
+ * Profile with legacy non-refreshable configuration.
+ */
+export type ProfileV1 = MappedProfile;
+
+/**
+ * Profile with SSO token provider configuration.
+ */
+export interface ProfileV2 {
+  output: Output;
+  region: Region;
+  sso_account_id: string;
+  sso_role_name: string;
+  sso_session: string;
+}
+
+/**
+ * SSO Sesssion profile when using profiles configured with the SSO token
+ * provider configuration.
+ */
+export interface SSOSessionProfile {
+  sso_region: Region;
+  sso_registration_scopes: string;
   sso_start_url: string;
 }
 

@@ -35,3 +35,15 @@ export class ProfileNotFoundError extends Error {
     Object.setPrototypeOf(this, ProfileNotFoundError.prototype);
   }
 }
+
+export class InvalidProfile extends Error {
+  constructor(profile: string) {
+    const message = `Invalid profile found for ${profile}`;
+    super(message);
+    Error.captureStackTrace(this, this.constructor);
+    this.name = this.constructor.name;
+    this.message = message;
+
+    Object.setPrototypeOf(this, InvalidProfile.prototype);
+  }
+}
