@@ -98,7 +98,7 @@ alias awsmyprofile="awsp my-profile && ssocreds -p my-profile"
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -115,6 +115,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center"><a href="https://github.com/colesiegel"><img src="https://avatars.githubusercontent.com/u/14875904?v=4?s=100" width="100px;" alt="Cole Siegel"/><br /><sub><b>Cole Siegel</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/issues?q=author%3Acolesiegel" title="Bug reports">🐛</a></td>
       <td align="center"><a href="https://github.com/rutomo"><img src="https://avatars.githubusercontent.com/u/1312306?v=4?s=100" width="100px;" alt="Rinaldi Utomo"/><br /><sub><b>Rinaldi Utomo</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/issues?q=author%3Arutomo" title="Bug reports">🐛</a></td>
       <td align="center"><a href="https://github.com/diogobaltazar"><img src="https://avatars.githubusercontent.com/u/15616889?v=4?s=100" width="100px;" alt="diogo"/><br /><sub><b>diogo</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/issues?q=author%3Adiogobaltazar" title="Bug reports">🐛</a></td>
+      <td align="center"><a href="https://github.com/chill389cc"><img src="https://avatars.githubusercontent.com/u/16962685?v=4?s=100" width="100px;" alt="Caleb Hill"/><br /><sub><b>Caleb Hill</b></sub></a><br /><a href="https://github.com/ryansonshine/aws-sso-creds-helper/issues?q=author%3Achill389cc" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
