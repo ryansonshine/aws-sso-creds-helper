@@ -1,4 +1,11 @@
-import { writeFileSync, readFileSync, existsSync, copyFileSync } from 'fs';
+import {
+  writeFileSync,
+  readFileSync,
+  existsSync,
+  copyFileSync,
+  mkdirSync,
+  readdirSync,
+} from 'fs';
 import { parse, encode } from 'ini';
 import { ParsedConfig, CachedCredential, MappedProfile } from './types';
 import { exec } from 'child_process';
@@ -16,6 +23,15 @@ export const readConfig = <T>(filename: string): ParsedConfig<T> => {
     readFileSync(filename).toString('utf-8')
   ) as ParsedConfig<T>;
   return config;
+};
+
+export const getFilesFromDirectory = (directory: string): string[] => {
+  if (!existsSync(directory)) {
+    logger.debug(`Directory ${directory} does not exist, creating now`);
+    mkdirSync(directory, { recursive: true });
+  }
+
+  return readdirSync(directory);
 };
 
 export const isFile = (filename: string): boolean => {

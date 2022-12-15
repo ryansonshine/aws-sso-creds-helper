@@ -5,6 +5,7 @@ import * as utils from '../../utils';
 import { CachedCredential, MappedProfile } from '../../types';
 import { testCredential, testProfileV1 } from '../doubles';
 import { logger } from '../../logger';
+import { cwd } from 'process';
 
 const filename = '/tmp/filename';
 
@@ -33,6 +34,34 @@ describe('utils', () => {
       utils.readConfig(filename);
 
       expect(readFileSync).toHaveBeenCalledWith(...expected);
+    });
+  });
+
+  describe('getFilesFromDirectory', () => {
+    it('should create a new directory if the existing directory does not exist', () => {
+      const mkdirSync = jest
+        .spyOn(fs, 'mkdirSync')
+        .mockImplementationOnce(() => '');
+      const existsSync = jest
+        .spyOn(fs, 'existsSync')
+        .mockReturnValueOnce(false);
+
+      utils.getFilesFromDirectory(cwd());
+
+      expect(existsSync).toHaveBeenCalledTimes(1);
+      expect(mkdirSync).toHaveBeenCalledTimes(1);
+    });
+
+    it('should NOT create a new directory if the existing directory DOES exist', () => {
+      const mkdirSync = jest
+        .spyOn(fs, 'mkdirSync')
+        .mockImplementationOnce(() => '');
+      const existsSync = jest.spyOn(fs, 'existsSync').mockReturnValueOnce(true);
+
+      utils.getFilesFromDirectory(cwd());
+
+      expect(existsSync).toHaveBeenCalledTimes(1);
+      expect(mkdirSync).not.toHaveBeenCalled();
     });
   });
 

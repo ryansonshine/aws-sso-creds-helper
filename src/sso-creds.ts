@@ -1,6 +1,5 @@
 import { homedir } from 'os';
 import { join } from 'path';
-import { readdirSync } from 'fs';
 import { RoleCredentials } from 'aws-sdk/clients/sso';
 import {
   ConfigFileEntry,
@@ -18,6 +17,7 @@ import {
   isFile,
   createBackup,
   awsSsoLogin,
+  getFilesFromDirectory,
 } from './utils';
 import {
   AwsSdkError,
@@ -44,7 +44,7 @@ export const AWS_SSO_CACHE_PATH = join(BASE_PATH, 'sso', 'cache');
 let failedAttempts = 0;
 
 export const getSsoCachedLogin = (profile: MappedProfile): CachedCredential => {
-  const files = readdirSync(AWS_SSO_CACHE_PATH);
+  const files = getFilesFromDirectory(AWS_SSO_CACHE_PATH);
   logger.debug(
     `Found ${files.length} cache files in ${AWS_SSO_CACHE_PATH}:\n${files.join(
       '\n'

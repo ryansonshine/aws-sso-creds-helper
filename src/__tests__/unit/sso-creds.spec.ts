@@ -75,11 +75,10 @@ describe('sso-creds', () => {
       const params: Parameters<typeof ssoCreds.getSsoCachedLogin> = [
         testProfileV1,
       ];
-      // @ts-expect-error
-      mockFs.readdirSync.mockReturnValue(['test.json']);
       mockUtils.loadJson.mockReturnValue(testCredential);
       mockUtils.isMatchingStartUrl.mockReturnValue(true);
       mockUtils.isExpired.mockReturnValue(true);
+      mockUtils.getFilesFromDirectory.mockReturnValue(['test.json']);
 
       const fn = () => ssoCreds.getSsoCachedLogin(...params);
 
@@ -90,7 +89,7 @@ describe('sso-creds', () => {
       const params: Parameters<typeof ssoCreds.getSsoCachedLogin> = [
         testProfileV1,
       ];
-      mockFs.readdirSync.mockReturnValue([]);
+      mockUtils.getFilesFromDirectory.mockReturnValue([]);
 
       const fn = () => ssoCreds.getSsoCachedLogin(...params);
 
@@ -101,11 +100,10 @@ describe('sso-creds', () => {
       const params: Parameters<typeof ssoCreds.getSsoCachedLogin> = [
         testProfileV1,
       ];
-      // @ts-expect-error
-      mockFs.readdirSync.mockReturnValue(['test.json']);
       mockUtils.loadJson.mockReturnValue(testCredential);
       mockUtils.isExpired.mockReturnValue(false);
       mockUtils.isMatchingStartUrl.mockReturnValue(false);
+      mockUtils.getFilesFromDirectory.mockReturnValue(['test.json']);
 
       const fn = () => ssoCreds.getSsoCachedLogin(...params);
 
@@ -117,11 +115,10 @@ describe('sso-creds', () => {
         testProfileV1,
       ];
       const expected = testCredential;
-      // @ts-expect-error
-      mockFs.readdirSync.mockReturnValue(['test.json']);
       mockUtils.loadJson.mockReturnValue(expected);
       mockUtils.isExpired.mockReturnValue(false);
       mockUtils.isMatchingStartUrl.mockReturnValue(true);
+      mockUtils.getFilesFromDirectory.mockReturnValue(['test.json']);
 
       const result = ssoCreds.getSsoCachedLogin(...params);
 
@@ -132,11 +129,13 @@ describe('sso-creds', () => {
       const params: Parameters<typeof ssoCreds.getSsoCachedLogin> = [
         testProfileV1,
       ];
-      // @ts-expect-error
-      mockFs.readdirSync.mockReturnValue(['test.html', 'valid.json']);
       mockUtils.loadJson.mockReturnValue(testCredential);
       mockUtils.isExpired.mockReturnValue(false);
       mockUtils.isMatchingStartUrl.mockReturnValue(true);
+      mockUtils.getFilesFromDirectory.mockReturnValue([
+        'test.html',
+        'valid.json',
+      ]);
 
       ssoCreds.getSsoCachedLogin(...params);
 
