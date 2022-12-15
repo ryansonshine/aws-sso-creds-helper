@@ -38,14 +38,14 @@ export const isProfileV1 = (profile: unknown): profile is ProfileV1 => {
     /* istanbul ignore next */
     (profile as ProfileV1)?.sso_start_url && (profile as ProfileV1).sso_region
   );
-  logger.debug(`Loaded profile is version ${isV1 ? '1' : ''}`);
+  if (isV1) logger.debug('Loaded profile is version 1');
   return isV1;
 };
 
 export const isProfileV2 = (profile: unknown): profile is ProfileV2 => {
   /* istanbul ignore next */
   const isV2 = Boolean((profile as ProfileV2)?.sso_session);
-  logger.debug(`Loaded profile is version ${isV2 ? '2' : ''}`);
+  if (isV2) logger.debug('Loaded profile is version 2');
   return isV2;
 };
 
