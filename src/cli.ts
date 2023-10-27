@@ -3,6 +3,15 @@ import { Command } from 'commander';
 import { logger } from './logger';
 import { run } from './sso-creds';
 
+logger.warn('Notice: This package is no longer actively maintained.');
+logger.warn(
+  'This functionality is now supported by the AWS CLI. Please update to the\
+ latest version and run "aws sso login --profile <profile_name>" to see if it works for your use case.'
+);
+logger.warn(
+  'See https://docs.aws.amazon.com/cli/latest/userguide/sso-configure-profile-token.html for additional details.'
+);
+
 const version: string = require('../package.json').version;
 const program = new Command();
 
