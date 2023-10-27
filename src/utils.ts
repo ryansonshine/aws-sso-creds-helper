@@ -60,6 +60,7 @@ export const loadJson = (path: string): unknown => {
     const jsonRaw = readFileSync(path).toString('utf-8');
     return JSON.parse(jsonRaw) as unknown;
   } catch (e) {
+    // @ts-ignore
     logger.error('Ignoring invalid json', e);
   }
 };

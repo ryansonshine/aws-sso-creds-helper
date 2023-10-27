@@ -7,9 +7,4 @@ module.exports = {
     '!<rootDir>/src/__tests__/**/*.ts',
     '!<rootDir>/src/types/**/*.ts',
   ],
-  globals: {
-    'ts-jest': {
-      diagnostics: false,
-    },
-  },
 };

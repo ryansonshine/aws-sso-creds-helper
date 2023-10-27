@@ -55,7 +55,7 @@ describe('type guards', () => {
       const validCredential: CachedCredential = {
         ...testCredential,
       };
-      delete validCredential.accessToken;
+      delete (validCredential as Partial<CachedCredential>).accessToken;
 
       expect(isCredential(validCredential)).toBe(false);
     });
@@ -106,7 +106,7 @@ describe('type guards', () => {
         sso_registration_scopes: 'sso:account:access',
         sso_start_url: 'https://example.com',
       };
-      delete ssoProfile.sso_start_url;
+      delete (ssoProfile as Partial<SSOSessionProfile>).sso_start_url;
 
       expect(isSSOSessionProfile(ssoProfile)).toBe(false);
     });
