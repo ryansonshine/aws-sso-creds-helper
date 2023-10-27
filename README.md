@@ -1,5 +1,13 @@
 # AWS SSO Credentials Helper
 
+> [!IMPORTANT]
+> This repository is now archived due to new functionality being added to the
+> AWS CLI.
+>
+> Please update your CLI to the latest version and use `aws sso login --profile <profile_name>`
+>
+> Additional details are available [here](https://docs.aws.amazon.com/cli/latest/userguide/sso-configure-profile-token.html).
+
 [![npm package][npm-img]][npm-url]
 [![Build Status][build-img]][build-url]
 [![Downloads][downloads-img]][downloads-url]
